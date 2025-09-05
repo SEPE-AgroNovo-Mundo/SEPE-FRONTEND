@@ -1,12 +1,18 @@
+<script>
+export default {
+  name: "AppHeader"
+};
+</script>
+
 <template>
   <header class="header">
     <div class="header-left">
       <img src="@/assets/imagens/logo.png" alt="Logo" class="logo" />
       <nav class="menu">
-        <a href="#">Medicamentos</a>
+        <a  @click.prevent="$router.push('/medicamentos')">Medicamentos</a>
         <a href="#">Ferragens</a>
         <a href="#">Hormônios</a>
-        <a href="#">Raçõess</a>
+        <a href="#">Rações</a>
         <a href="#">Pragas</a>
         <a href="#">Pets</a>
       </nav>
@@ -20,11 +26,6 @@
   </header>
 </template>
 
-<script>
-export default {
-  name: "AppHeader"
-};
-</script>
 
 <style scoped>
 .header {

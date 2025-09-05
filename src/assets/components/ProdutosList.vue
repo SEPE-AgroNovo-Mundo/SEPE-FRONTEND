@@ -1,3 +1,7 @@
+<script setup>
+defineProps({ produtos: Array })
+</script>
+
 <template>
   <div class="produtos-list">
     <div v-for="produto in produtos" :key="produto.id" class="produto-card">
@@ -14,9 +18,6 @@
   </div>
 </template>
 
-<script setup>
-defineProps({ produtos: Array })
-</script>
 
 <style scoped>
 .produtos-list {

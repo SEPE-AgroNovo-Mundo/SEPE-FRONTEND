@@ -1,17 +1,3 @@
-<template>
-  <div class="medicamentos-view">
-    <Header />
-    <div class="conteudo">
-      <aside class="filtro-lateral">
-        <MedicaFiltro @filtrar="filtrarProdutos" />
-      </aside>
-      <main class="produtos-area">
-        <ProdutosList :produtos="produtosFiltrados" />
-      </main>
-    </div>
-  </div>
-</template>
-
 <script setup>
 import Header from '@/assets/components/Header.vue'
 import MedicaFiltro from '@/assets/components/MedicaFiltro.vue'
@@ -285,6 +271,21 @@ function filtrarProdutos(filtros) {
   produtosFiltrados.value = lista
 }
 </script>
+
+
+<template>
+  <div class="medicamentos-view">
+    <Header />
+    <div class="conteudo">
+      <aside class="filtro-lateral">
+        <MedicaFiltro @filtrar="filtrarProdutos" />
+      </aside>
+      <main class="produtos-area">
+        <ProdutosList :produtos="produtosFiltrados" />
+      </main>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 .medicamentos-view {
