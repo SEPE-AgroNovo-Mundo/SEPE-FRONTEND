@@ -11,7 +11,7 @@ function oswhats() {
 }
 
 function goToLogin() {
-  router.push('/inicio');
+  router.push('/medicamentos');
 }
 </script>
 
@@ -183,6 +183,7 @@ html, body, #app {
   height: 100vh;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 </style>

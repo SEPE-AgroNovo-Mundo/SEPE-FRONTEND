@@ -1,14 +1,31 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
-import InicioView from '../components/InicioView.vue'
-
+import MedicamentosView from '../../views/MedicamentosView.vue'
+import MedicaFiltro from '../components/MedicaFiltro.vue';
+import produtosList from '../components/produtosList.vue';
+import Header from '../components/Header.vue';
 
 const routes = [
-  {
-    path: '/inicio',
-    component: InicioView
-  }
 
+  {
+    path: '/medicamentos',
+    component: MedicamentosView,
+    name: 'MedicamentosView'
+  },
+  {
+    path: '/produtos-list',
+    component: produtosList,
+    name: 'ProdutosList'
+  },
+  {
+    path: '/header',
+    component: Header,
+    name: 'Header'
+  },
+  {
+    path: '/medica',
+    component: MedicaFiltro,
+    name: 'MedicaFiltro'
+  },
 ]
 
 const router = createRouter({
