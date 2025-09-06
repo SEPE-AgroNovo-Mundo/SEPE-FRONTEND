@@ -1,8 +1,9 @@
 <script setup>
-import { ref, watch } from 'vue'
-import { defineEmits } from 'vue'
+import { ref, watch, computed } from 'vue'
+import { defineEmits, defineProps } from 'vue'
 
 const emit = defineEmits(['filtrar'])
+const props = defineProps({ produtos: Array })
 
 const ordenacao = ref('Relevância')
 const categoriaBusca = ref('')
@@ -11,11 +12,11 @@ const pesoBusca = ref('')
 const opcaoBusca = ref('')
 
 const categorias = ref([
-  { nome: 'Anti Parasitários', qtd: 445 },
-  { nome: 'Antibióticos E Anti Microbianos', qtd: 200 },
-  { nome: 'Suplementos', qtd: 231 },
-  { nome: 'Anti Alérgicos E Anti Inflamatórios', qtd: 160 },
-  { nome: 'Hormônios', qtd: 23 }
+  { nome: 'Anti Parasitários' },
+  { nome: 'Antibióticos E Anti Microbianos' },
+  { nome: 'Suplementos' },
+  { nome: 'Anti Alérgicos E Anti Inflamatórios' },
+  { nome: 'Hormônios' }
 ])
 const marcas = ref([
   'União Química', 'Ourofino', 'Zoetis', 'Calbos'
@@ -31,6 +32,14 @@ const categoriasSelecionadas = ref([])
 const marcasSelecionadas = ref([])
 const pesosSelecionados = ref([])
 const opcoesSelecionadas = ref([])
+
+const categoriasContagem = computed(() => {
+  const contagem = {}
+  categorias.value.forEach(cat => {
+    contagem[cat.nome] = props.produtos.filter(p => p.categoria === cat.nome).length
+  })
+  return contagem
+})
 
 watch([
   ordenacao,
@@ -74,7 +83,7 @@ watch([
       <input type="text" v-model="categoriaBusca" placeholder="Buscar categoria..." class="filtro-busca" />
       <div class="filtro-lista">
         <label v-for="cat in categorias.filter(c => c.nome.toLowerCase().includes(categoriaBusca.toLowerCase()))" :key="cat.nome">
-          <input type="checkbox" :value="cat.nome" v-model="categoriasSelecionadas" /> {{ cat.nome }} <span class="badge">{{ cat.qtd }}</span>
+          <input type="checkbox" :value="cat.nome" v-model="categoriasSelecionadas" /> {{ cat.nome }} <span class="badge">{{ categoriasContagem[cat.nome] }}</span>
         </label>
       </div>
     </div>

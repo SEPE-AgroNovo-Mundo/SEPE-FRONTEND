@@ -278,7 +278,7 @@ function filtrarProdutos(filtros) {
     <Header />
     <div class="conteudo">
       <aside class="filtro-lateral">
-        <MedicaFiltro @filtrar="filtrarProdutos" />
+        <MedicaFiltro :produtos="produtos" @filtrar="filtrarProdutos" />
       </aside>
       <main class="produtos-area">
         <ProdutosList :produtos="produtosFiltrados" />
