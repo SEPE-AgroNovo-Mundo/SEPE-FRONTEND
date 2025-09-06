@@ -8,6 +8,8 @@ import produtosList from '../components/produtosList.vue';
 import FerragensFiltro from '../components/FerragensFiltro.vue';
 import RacoesFiltro from '../components/RacoesFiltro.vue';
 import RacoesView from '../../views/RacoesView.vue';
+import DedetizacaoView from '../../views/DedetizacaoView.vue';
+import DedetizacaoFiltro from '../components/DedetizacaoFiltro.vue';
 import Header from '../components/Header.vue';
 
 const routes = [
@@ -62,6 +64,16 @@ const routes = [
     path: '/racoes-filtro',
     component: RacoesFiltro,
     name: 'RacoesFiltro'
+  },
+  {
+    path: '/pragas',
+    component: DedetizacaoView,
+    name: 'DedetizadoraView'
+  },
+  {
+    path: '/pragas-filtro',
+    component: DedetizacaoFiltro,
+    name: 'DedetizacaoFiltro'
   }
 ]
 
