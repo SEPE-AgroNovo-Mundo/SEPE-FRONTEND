@@ -10,7 +10,7 @@ export default {
       <img src="@/assets/imagens/logo.png" alt="Logo" class="logo" />
       <nav class="menu">
         <a  @click.prevent="$router.push('/medicamentos')">Medicamentos</a>
-        <a href="#">Ferragens</a>
+        <a @click.prevent="$router.push('/Ferragens')">Ferragens</a>
         <a href="#">Hormônios</a>
         <a href="#">Rações</a>
         <a href="#">Pragas</a>
