@@ -86,7 +86,7 @@ const routes = [
     path: '/pets-filtro',
     component: PetsFiltro,
     name: 'PetsFiltro'
-  }
+  },
 ]
 
 const router = createRouter({

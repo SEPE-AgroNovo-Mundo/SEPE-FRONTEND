@@ -7,7 +7,7 @@ export default {
 <template>
   <header class="header">
     <div class="header-left">
-      <img src="@/assets/imagens/logo.png" alt="Logo" class="logo" />
+      <img src="@/assets/imagens/logo.png" alt="Logo" class="logo" @click="$router.push('/')" style="cursor:pointer;" />
       <nav class="menu">
         <a  @click.prevent="$router.push('/medicamentos')">Medicamentos</a>
         <a @click.prevent="$router.push('/Ferragens')">Ferragens</a>
