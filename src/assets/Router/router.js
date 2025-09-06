@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import MedicamentosView from '../../views/MedicamentosView.vue'
 import FerragensView from '../../views/FerragensView.vue'
+import HormoniosView from '../../views/HormoniosView.vue'
+import HormoniosFiltro from '../components/HormoniosFiltro.vue';
 import MedicaFiltro from '../components/MedicaFiltro.vue';
 import produtosList from '../components/produtosList.vue';
 import FerragensFiltro from '../components/FerragensFiltro.vue';
@@ -38,6 +40,16 @@ const routes = [
     path: '/ferragens-filtro',
     component: FerragensFiltro,
     name: 'FerragensFiltro'
+  },
+  {
+    path: '/hormonios',
+    component: HormoniosView,
+    name: 'HormoniosView'
+  },
+  {
+    path: '/hormonios-filtro',
+    component: HormoniosFiltro,
+    name: 'HormoniosFiltro'
   }
 ]
 

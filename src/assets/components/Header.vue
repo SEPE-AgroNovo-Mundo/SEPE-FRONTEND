@@ -11,7 +11,7 @@ export default {
       <nav class="menu">
         <a  @click.prevent="$router.push('/medicamentos')">Medicamentos</a>
         <a @click.prevent="$router.push('/Ferragens')">Ferragens</a>
-        <a href="#">Hormônios</a>
+        <a @click.prevent="$router.push('/hormonios')">Hormônios</a>
         <a href="#">Rações</a>
         <a href="#">Pragas</a>
         <a href="#">Pets</a>
