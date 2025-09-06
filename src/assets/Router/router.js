@@ -6,6 +6,8 @@ import HormoniosFiltro from '../components/HormoniosFiltro.vue';
 import MedicaFiltro from '../components/MedicaFiltro.vue';
 import produtosList from '../components/produtosList.vue';
 import FerragensFiltro from '../components/FerragensFiltro.vue';
+import RacoesFiltro from '../components/RacoesFiltro.vue';
+import RacoesView from '../../views/RacoesView.vue';
 import Header from '../components/Header.vue';
 
 const routes = [
@@ -50,6 +52,16 @@ const routes = [
     path: '/hormonios-filtro',
     component: HormoniosFiltro,
     name: 'HormoniosFiltro'
+  },
+  {
+    path: '/racoes',
+    component: RacoesView,
+    name: 'RacoesView'
+  },
+  {
+    path: '/racoes-filtro',
+    component: RacoesFiltro,
+    name: 'RacoesFiltro'
   }
 ]
 

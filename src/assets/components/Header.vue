@@ -12,9 +12,9 @@ export default {
         <a  @click.prevent="$router.push('/medicamentos')">Medicamentos</a>
         <a @click.prevent="$router.push('/Ferragens')">Ferragens</a>
         <a @click.prevent="$router.push('/hormonios')">Hormônios</a>
-        <a href="#">Rações</a>
-        <a href="#">Pragas</a>
-        <a href="#">Pets</a>
+        <a @click.prevent="$router.push('/racoes')">Rações</a>
+        <a @click.prevent="$router.push('/pragas')">Pragas</a>
+        <a @click.prevent="$router.push('/pets')">Pets</a>
       </nav>
     </div>
     <div class="header-right">
