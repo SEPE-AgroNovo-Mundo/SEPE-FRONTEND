@@ -100,57 +100,61 @@ watch([
 
 <template>
   <div class="filtro-container">
-    <div class="filtro-bloco">
-      <h3><span class="filtro-icone">🔀</span> Ordenar</h3>
-      <select v-model="ordenacao">
-        <option>Relevância</option>
-        <option>Menor preço</option>
-        <option>Maior preço</option>
-      </select>
-    </div>
-    <div class="filtro-bloco">
-      <h3><span class="filtro-icone">📂</span> Categoria</h3>
-      <input type="text" v-model="categoriaBusca" placeholder="Buscar categoria..." class="filtro-busca" />
-      <div class="filtro-lista">
-        <label v-for="cat in categorias.filter(c => c.nome.toLowerCase().includes(categoriaBusca.toLowerCase()))" :key="cat.nome">
-          <input type="checkbox" :value="cat.nome" v-model="categoriasSelecionadas" /> {{ cat.nome }} <span class="badge">{{ categoriasContagem[cat.nome] }}</span>
-        </label>
-      </div>
-    </div>
-    <div class="filtro-bloco">
-      <h3><span class="filtro-icone">🏷️</span> Marca</h3>
-      <input type="text" v-model="marcaBusca" placeholder="Buscar marca..." class="filtro-busca" />
-      <div class="filtro-lista">
-        <label v-for="marca in marcas.filter(m => m.toLowerCase().includes(marcaBusca.toLowerCase()))" :key="marca">
-          <input type="checkbox" :value="marca" v-model="marcasSelecionadas" /> {{ marca }} <span class="badge">{{ marcasContagem[marca] }}</span>
-        </label>
-      </div>
-    </div>
-    <div class="filtro-bloco">
-      <h3><span class="filtro-icone">🐾</span> Tipo de Animal</h3>
-      <input type="text" v-model="tipoBusca" placeholder="Buscar tipo..." class="filtro-busca" />
-      <div class="filtro-lista">
-        <label v-for="tipo in tipos.filter(t => t.toLowerCase().includes(tipoBusca.toLowerCase()))" :key="tipo">
-          <input type="checkbox" :value="tipo" v-model="tiposSelecionados" /> {{ tipo }} <span class="badge">{{ tiposContagem[tipo] }}</span>
-        </label>
-      </div>
-    </div>
-    <div class="filtro-bloco">
-      <h3><span class="filtro-icone">🎨</span> Cor</h3>
-      <input type="text" v-model="corBusca" placeholder="Buscar cor..." class="filtro-busca" />
-      <div class="filtro-lista">
-        <label v-for="cor in cores.filter(c => c.toLowerCase().includes(corBusca.toLowerCase()))" :key="cor">
-          <input type="checkbox" :value="cor" v-model="coresSelecionadas" /> {{ cor }} <span class="badge">{{ coresContagem[cor] }}</span>
-        </label>
-      </div>
-    </div>
-    <div class="filtro-bloco">
-      <h3><span class="filtro-icone">🧩</span> Opção</h3>
-      <input type="text" v-model="opcaoBusca" placeholder="Buscar opção..." class="filtro-busca" />
-      <div class="filtro-lista">
-        <label v-for="opcao in opcoes.filter(o => o.toLowerCase().includes(opcaoBusca.toLowerCase()))" :key="opcao">
-          <input type="checkbox" :value="opcao" v-model="opcoesSelecionadas" /> {{ opcao }}
-        </label>
+    <div class="filtro-scroll">
+      <div class="filtro-scroll">
+        <div class="filtro-bloco">
+          <h3><span class="filtro-icone">🔀</span> Ordenar</h3>
+          <select v-model="ordenacao">
+            <option>Relevância</option>
+            <option>Menor preço</option>
+            <option>Maior preço</option>
+          </select>
+        </div>
+        <div class="filtro-bloco">
+          <h3><span class="filtro-icone">📂</span> Categoria</h3>
+          <input type="text" v-model="categoriaBusca" placeholder="Buscar categoria..." class="filtro-busca" />
+          <div class="filtro-lista">
+            <label v-for="cat in categorias.filter(c => c.nome.toLowerCase().includes(categoriaBusca.toLowerCase()))" :key="cat.nome">
+              <input type="checkbox" :value="cat.nome" v-model="categoriasSelecionadas" /> {{ cat.nome }} <span class="badge">{{ categoriasContagem[cat.nome] }}</span>
+            </label>
+          </div>
+        </div>
+        <div class="filtro-bloco">
+          <h3><span class="filtro-icone">🏷️</span> Marca</h3>
+          <input type="text" v-model="marcaBusca" placeholder="Buscar marca..." class="filtro-busca" />
+          <div class="filtro-lista">
+            <label v-for="marca in marcas.filter(m => m.toLowerCase().includes(marcaBusca.toLowerCase()))" :key="marca">
+              <input type="checkbox" :value="marca" v-model="marcasSelecionadas" /> {{ marca }} <span class="badge">{{ marcasContagem[marca] }}</span>
+            </label>
+          </div>
+        </div>
+        <div class="filtro-bloco">
+          <h3><span class="filtro-icone">🐾</span> Tipo de Animal</h3>
+          <input type="text" v-model="tipoBusca" placeholder="Buscar tipo..." class="filtro-busca" />
+          <div class="filtro-lista">
+            <label v-for="tipo in tipos.filter(t => t.toLowerCase().includes(tipoBusca.toLowerCase()))" :key="tipo">
+              <input type="checkbox" :value="tipo" v-model="tiposSelecionados" /> {{ tipo }} <span class="badge">{{ tiposContagem[tipo] }}</span>
+            </label>
+          </div>
+        </div>
+        <div class="filtro-bloco">
+          <h3><span class="filtro-icone">🎨</span> Cor</h3>
+          <input type="text" v-model="corBusca" placeholder="Buscar cor..." class="filtro-busca" />
+          <div class="filtro-lista">
+            <label v-for="cor in cores.filter(c => c.toLowerCase().includes(corBusca.toLowerCase()))" :key="cor">
+              <input type="checkbox" :value="cor" v-model="coresSelecionadas" /> {{ cor }} <span class="badge">{{ coresContagem[cor] }}</span>
+            </label>
+          </div>
+        </div>
+        <div class="filtro-bloco">
+          <h3><span class="filtro-icone">🧩</span> Opção</h3>
+          <input type="text" v-model="opcaoBusca" placeholder="Buscar opção..." class="filtro-busca" />
+          <div class="filtro-lista">
+            <label v-for="opcao in opcoes.filter(o => o.toLowerCase().includes(opcaoBusca.toLowerCase()))" :key="opcao">
+              <input type="checkbox" :value="opcao" v-model="opcoesSelecionadas" /> {{ opcao }}
+            </label>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -166,6 +170,14 @@ watch([
   display: flex;
   flex-direction: column;
   gap: 24px;
+  width: 100%;
+  overflow-x: hidden;
+}
+.filtro-scroll {
+  max-height: 400px;
+  overflow-y: auto;
+  width: 100%;
+  overflow-x: hidden;
 }
 .filtro-bloco {
   background: #f3f6fa;
@@ -228,5 +240,16 @@ select {
   font-size: 1rem;
   background: #fff;
   margin-bottom: 4px;
+}
+@media (max-width: 900px) {
+  .filtro-container {
+    width: 100%;
+  }
+  .filtro-scroll {
+    max-height: none;
+    overflow-y: visible;
+    width: 100%;
+    overflow-x: hidden;
+  }
 }
 </style>
