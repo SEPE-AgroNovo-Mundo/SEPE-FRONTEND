@@ -126,6 +126,21 @@ function handleImagemEdicao(e) {
   }
   reader.readAsDataURL(file)
 }
+
+function excluirUsuario(id) {
+  let lista = localStorage.getItem('usuarios')
+  let arr = lista ? JSON.parse(lista) : []
+  arr = arr.filter(u => u.id !== id)
+  localStorage.setItem('usuarios', JSON.stringify(arr))
+  usuarios.value = arr
+  // Se o usuário removido for o logado, desloga
+  if (usuario.value.id === id) {
+    localStorage.removeItem('usuario')
+    usuario.value = { id: '', nome: '', email: '', imagem: '' }
+    cadastrando.value = true
+    showSelecionarUsuario.value = false
+  }
+}
 </script>
 
 <template>
@@ -161,7 +176,7 @@ function handleImagemEdicao(e) {
         <button type="submit">Cadastrar</button>
       </form>
       <div v-if="!cadastrando" class="botoes-usuario">
-        <button class="btn-logout" @click="deslogar">Trocar de usuário</button>
+        <button class="btn-logout" @click="deslogar" v-if="!editando">Trocar de usuário</button>
         <button class="btn-editar" @click="iniciarEdicao" v-if="!editando">Editar</button>
       </div>
       <form v-if="editando" class="form-edicao" @submit.prevent="salvarEdicao">
@@ -196,8 +211,13 @@ function handleImagemEdicao(e) {
     <div class="modal-content">
       <h3>Selecionar usuário</h3>
       <ul>
-        <li v-for="u in usuarios" :key="u.id" @click="selecionarUsuario(u)">
-          <img :src="u.imagem || logo" class="mini-foto" /> {{ u.nome }} ({{ u.email }})
+        <li v-for="u in usuarios" :key="u.id">
+          <div style="display:flex;align-items:center;gap:10px;width:100%">
+            <span style="flex:1;display:flex;align-items:center;gap:10px;cursor:pointer" @click="selecionarUsuario(u)">
+              <img :src="u.imagem || logo" class="mini-foto" /> {{ u.nome }} ({{ u.email }})
+            </span>
+            <button @click.stop="excluirUsuario(u.id)" style="background:#eee;color:#f4511e;border:none;padding:4px 10px;border-radius:6px;font-size:0.95rem;cursor:pointer;">Excluir</button>
+          </div>
         </li>
       </ul>
     </div>
