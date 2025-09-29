@@ -1,6 +1,20 @@
 <script>
 export default {
-  name: "AppHeader"
+  name: "AppHeader",
+  data() {
+    return {
+      usuario: {
+        imagem: ''
+      }
+    }
+  },
+  mounted() {
+    const dados = localStorage.getItem('usuario');
+    if (dados) {
+      const user = JSON.parse(dados);
+      this.usuario.imagem = user.imagem || '';
+    }
+  }
 };
 </script>
 
@@ -20,11 +34,11 @@ export default {
     <div class="header-right">
       <input type="text" class="busca" placeholder="O que você precisa hoje?" />
       <span class="icon cart">🛒</span>
-      <span class="icon user" @click="$router.push('/perfil')">👤</span>
+      <img v-if="usuario.imagem" :src="usuario.imagem" class="perfil-header" @click="$router.push('/perfil')" alt="Perfil" />
+      <span v-else class="icon user" @click="$router.push('/perfil')">👤</span>
     </div>
   </header>
 </template>
-
 
 <style scoped>
 .header {
@@ -89,6 +103,21 @@ export default {
 }
 .icon:hover {
   color: #d84315;
+}
+.perfil-header {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #f4511e44;
+  background: #f3f6fa;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: box-shadow 0.2s;
+  box-shadow: 0 2px 8px #f4511e22;
+}
+.perfil-header:hover {
+  box-shadow: 0 4px 16px #f4511e33;
 }
 @media (max-width: 900px) {
   .header {
