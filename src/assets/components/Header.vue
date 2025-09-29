@@ -20,8 +20,7 @@ export default {
     <div class="header-right">
       <input type="text" class="busca" placeholder="O que você precisa hoje?" />
       <span class="icon cart">🛒</span>
-      <span class="icon user">👤</span>
-
+      <span class="icon user" @click="$router.push('/perfil')">👤</span>
     </div>
   </header>
 </template>

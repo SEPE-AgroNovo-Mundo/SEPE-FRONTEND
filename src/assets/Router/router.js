@@ -4,7 +4,6 @@ import FerragensView from '../../views/FerragensView.vue'
 import HormoniosView from '../../views/HormoniosView.vue'
 import HormoniosFiltro from '../components/HormoniosFiltro.vue';
 import MedicaFiltro from '../components/MedicaFiltro.vue';
-import produtosList from '../components/produtosList.vue';
 import FerragensFiltro from '../components/FerragensFiltro.vue';
 import RacoesFiltro from '../components/RacoesFiltro.vue';
 import RacoesView from '../../views/RacoesView.vue';
@@ -13,6 +12,7 @@ import DedetizacaoFiltro from '../components/DedetizacaoFiltro.vue';
 import PetsFiltro from '../components/PetsFiltro.vue';
 import PetsView from '../../views/PetsView.vue';
 import Header from '../components/Header.vue';
+import UsuarioPerfil from '../components/UsuarioPerfil.vue';
 
 const routes = [
 
@@ -22,14 +22,14 @@ const routes = [
     name: 'MedicamentosView'
   },
   {
+    path: '/perfil',
+    component: UsuarioPerfil,
+    name: 'UsuarioPerfil'
+  },
+  {
     path: '/ferragens',
     component: FerragensView,
     name: 'FerragensView'
-  },
-  {
-    path: '/produtos-list',
-    component: produtosList,
-    name: 'ProdutosList'
   },
   {
     path: '/header',
