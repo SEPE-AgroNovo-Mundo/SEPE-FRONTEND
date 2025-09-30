@@ -2,7 +2,7 @@
 import Header from '@/assets/components/Header.vue'
 import PetsFiltro from '@/assets/components/PetsFiltro.vue'
 import ProdutosList from '@/assets/components/ProdutosList.vue'
-import { ref } from 'vue'
+import { ref, inject, watch } from 'vue'
 
 const produtos = ref([
   {
@@ -68,43 +68,32 @@ const produtos = ref([
 ])
 
 const produtosFiltrados = ref([...produtos.value])
+const termoBuscaGlobal = inject('termoBuscaGlobal')
+const filtrosAtuais = ref({ categorias: [], marcas: [], tipos: [], cores: [], opcoes: [], busca: {}, ordenacao: '' })
+
+watch(termoBuscaGlobal, () => {
+  filtrarProdutos(filtrosAtuais.value)
+})
 
 function filtrarProdutos(filtros) {
+  filtrosAtuais.value = JSON.parse(JSON.stringify(filtros))
   let lista = produtos.value
-  if (filtros.categorias.length) {
-    lista = lista.filter(p => filtros.categorias.includes(p.categoria))
-  }
-  if (filtros.marcas.length) {
-    lista = lista.filter(p => filtros.marcas.includes(p.marca))
-  }
-  if (filtros.tipos.length) {
-    lista = lista.filter(p => filtros.tipos.includes(p.tipo))
-  }
-  if (filtros.cores.length) {
-    lista = lista.filter(p => filtros.cores.includes(p.cor))
-  }
-  if (filtros.opcoes.length) {
-    lista = lista.filter(p => filtros.opcoes.includes(p.opcao))
-  }
-  if (filtros.busca.categoria) {
-    lista = lista.filter(p => p.categoria.toLowerCase().includes(filtros.busca.categoria.toLowerCase()))
-  }
-  if (filtros.busca.marca) {
-    lista = lista.filter(p => p.marca.toLowerCase().includes(filtros.busca.marca.toLowerCase()))
-  }
-  if (filtros.busca.tipo) {
-    lista = lista.filter(p => p.tipo && p.tipo.toLowerCase().includes(filtros.busca.tipo.toLowerCase()))
-  }
-  if (filtros.busca.cor) {
-    lista = lista.filter(p => p.cor && p.cor.toLowerCase().includes(filtros.busca.cor.toLowerCase()))
-  }
-  if (filtros.busca.opcao) {
-    lista = lista.filter(p => p.opcao && p.opcao.toLowerCase().includes(filtros.busca.opcao.toLowerCase()))
-  }
-  if (filtros.ordenacao === 'Menor preço') {
-    lista = [...lista].sort((a, b) => a.preco - b.preco)
-  } else if (filtros.ordenacao === 'Maior preço') {
-    lista = [...lista].sort((a, b) => b.preco - a.preco)
+  if (filtros.categorias.length) lista = lista.filter(p => filtros.categorias.includes(p.categoria))
+  if (filtros.marcas.length) lista = lista.filter(p => filtros.marcas.includes(p.marca))
+  if (filtros.tipos.length) lista = lista.filter(p => filtros.tipos.includes(p.tipo))
+  if (filtros.cores.length) lista = lista.filter(p => filtros.cores.includes(p.cor))
+  if (filtros.opcoes.length) lista = lista.filter(p => filtros.opcoes.includes(p.opcao))
+  if (filtros.busca.categoria) lista = lista.filter(p => p.categoria.toLowerCase().includes(filtros.busca.categoria.toLowerCase()))
+  if (filtros.busca.marca) lista = lista.filter(p => p.marca.toLowerCase().includes(filtros.busca.marca.toLowerCase()))
+  if (filtros.busca.tipo) lista = lista.filter(p => p.tipo && p.tipo.toLowerCase().includes(filtros.busca.tipo.toLowerCase()))
+  if (filtros.busca.cor) lista = lista.filter(p => p.cor && p.cor.toLowerCase().includes(filtros.busca.cor.toLowerCase()))
+  if (filtros.busca.opcao) lista = lista.filter(p => p.opcao && p.opcao.toLowerCase().includes(filtros.busca.opcao.toLowerCase()))
+  if (filtros.ordenacao === 'Menor preço') lista = [...lista].sort((a, b) => a.preco - b.preco)
+  else if (filtros.ordenacao === 'Maior preço') lista = [...lista].sort((a, b) => b.preco - a.preco)
+  // Filtro global pelo nome:
+  if (termoBuscaGlobal && termoBuscaGlobal.value) {
+    const termo = termoBuscaGlobal.value.toLowerCase()
+    lista = lista.filter(p => p.nome.toLowerCase().includes(termo))
   }
   produtosFiltrados.value = lista
 }

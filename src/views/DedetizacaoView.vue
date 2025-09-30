@@ -2,7 +2,7 @@
 import Header from '@/assets/components/Header.vue'
 import DedetizacaoFiltro from '@/assets/components/DedetizacaoFiltro.vue'
 import ProdutosList from '@/assets/components/ProdutosList.vue'
-import { ref } from 'vue'
+import { ref, inject, watch } from 'vue'
 
 const produtos = ref([
   {
@@ -73,49 +73,44 @@ const produtos = ref([
 ])
 
 const produtosFiltrados = ref([...produtos.value])
+const termoBuscaGlobal = inject('termoBuscaGlobal')
+
+const filtrosAtuais = ref({
+  categorias: [],
+  marcas: [],
+  tipos: [],
+  volumes: [],
+  pesos: [],
+  opcoes: [],
+  busca: {},
+  ordenacao: ''
+})
+
+watch(termoBuscaGlobal, () => {
+  filtrarProdutos(filtrosAtuais.value)
+})
 
 function filtrarProdutos(filtros) {
+  filtrosAtuais.value = JSON.parse(JSON.stringify(filtros))
   let lista = produtos.value
-  if (filtros.categorias.length) {
-    lista = lista.filter(p => filtros.categorias.includes(p.categoria))
-  }
-  if (filtros.marcas.length) {
-    lista = lista.filter(p => filtros.marcas.includes(p.marca))
-  }
-  if (filtros.tipos.length) {
-    lista = lista.filter(p => filtros.tipos.includes(p.tipo))
-  }
-  if (filtros.volumes.length) {
-    lista = lista.filter(p => filtros.volumes.includes(p.volume))
-  }
-  if (filtros.pesos.length) {
-    lista = lista.filter(p => filtros.pesos.includes(p.peso))
-  }
-  if (filtros.opcoes.length) {
-    lista = lista.filter(p => filtros.opcoes.includes(p.opcao))
-  }
-  if (filtros.busca.categoria) {
-    lista = lista.filter(p => p.categoria.toLowerCase().includes(filtros.busca.categoria.toLowerCase()))
-  }
-  if (filtros.busca.marca) {
-    lista = lista.filter(p => p.marca.toLowerCase().includes(filtros.busca.marca.toLowerCase()))
-  }
-  if (filtros.busca.tipo) {
-    lista = lista.filter(p => p.tipo && p.tipo.toLowerCase().includes(filtros.busca.tipo.toLowerCase()))
-  }
-  if (filtros.busca.volume) {
-    lista = lista.filter(p => p.volume && p.volume.toLowerCase().includes(filtros.busca.volume.toLowerCase()))
-  }
-  if (filtros.busca.peso) {
-    lista = lista.filter(p => p.peso && p.peso.toLowerCase().includes(filtros.busca.peso.toLowerCase()))
-  }
-  if (filtros.busca.opcao) {
-    lista = lista.filter(p => p.opcao && p.opcao.toLowerCase().includes(filtros.busca.opcao.toLowerCase()))
-  }
-  if (filtros.ordenacao === 'Menor preço') {
-    lista = [...lista].sort((a, b) => a.preco - b.preco)
-  } else if (filtros.ordenacao === 'Maior preço') {
-    lista = [...lista].sort((a, b) => b.preco - a.preco)
+  if (filtros.categorias.length) lista = lista.filter(p => filtros.categorias.includes(p.categoria))
+  if (filtros.marcas.length) lista = lista.filter(p => filtros.marcas.includes(p.marca))
+  if (filtros.tipos.length) lista = lista.filter(p => filtros.tipos.includes(p.tipo))
+  if (filtros.volumes.length) lista = lista.filter(p => filtros.volumes.includes(p.volume))
+  if (filtros.pesos.length) lista = lista.filter(p => filtros.pesos.includes(p.peso))
+  if (filtros.opcoes.length) lista = lista.filter(p => filtros.opcoes.includes(p.opcao))
+  if (filtros.busca.categoria) lista = lista.filter(p => p.categoria.toLowerCase().includes(filtros.busca.categoria.toLowerCase()))
+  if (filtros.busca.marca) lista = lista.filter(p => p.marca.toLowerCase().includes(filtros.busca.marca.toLowerCase()))
+  if (filtros.busca.tipo) lista = lista.filter(p => p.tipo && p.tipo.toLowerCase().includes(filtros.busca.tipo.toLowerCase()))
+  if (filtros.busca.volume) lista = lista.filter(p => p.volume && p.volume.toLowerCase().includes(filtros.busca.volume.toLowerCase()))
+  if (filtros.busca.peso) lista = lista.filter(p => p.peso && p.peso.toLowerCase().includes(filtros.busca.peso.toLowerCase()))
+  if (filtros.busca.opcao) lista = lista.filter(p => p.opcao && p.opcao.toLowerCase().includes(filtros.busca.opcao.toLowerCase()))
+  if (filtros.ordenacao === 'Menor preço') lista = [...lista].sort((a, b) => a.preco - b.preco)
+  else if (filtros.ordenacao === 'Maior preço') lista = [...lista].sort((a, b) => b.preco - a.preco)
+  // Filtro global pelo nome:
+  if (termoBuscaGlobal && termoBuscaGlobal.value) {
+    const termo = termoBuscaGlobal.value.toLowerCase()
+    lista = lista.filter(p => p.nome.toLowerCase().includes(termo))
   }
   produtosFiltrados.value = lista
 }

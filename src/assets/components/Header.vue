@@ -1,21 +1,21 @@
-<script>
-export default {
-  name: "AppHeader",
-  data() {
-    return {
-      usuario: {
-        imagem: ''
-      }
-    }
-  },
-  mounted() {
-    const dados = localStorage.getItem('usuario');
-    if (dados) {
-      const user = JSON.parse(dados);
-      this.usuario.imagem = user.imagem || '';
-    }
+<script setup>
+defineOptions({ name: 'AppHeader' })
+import { inject } from 'vue'
+const termoBuscaGlobal = inject('termoBuscaGlobal')
+
+const usuario = {
+  imagem: ''
+}
+if (typeof window !== 'undefined') {
+  const dados = localStorage.getItem('usuario');
+  if (dados) {
+    const user = JSON.parse(dados);
+    usuario.imagem = user.imagem || '';
   }
-};
+}
+function atualizarBusca(e) {
+  if (termoBuscaGlobal) termoBuscaGlobal.value = e.target.value
+}
 </script>
 
 <template>
@@ -32,7 +32,7 @@ export default {
       </nav>
     </div>
     <div class="header-right">
-      <input type="text" class="busca" placeholder="O que você precisa hoje?" />
+      <input type="text" class="busca" placeholder="O que você precisa hoje?" :value="termoBuscaGlobal ? termoBuscaGlobal.value : ''" @input="atualizarBusca" />
       <span class="icon cart">🛒</span>
       <img v-if="usuario.imagem" :src="usuario.imagem" class="perfil-header" @click="$router.push('/perfil')" alt="Perfil" />
       <span v-else class="icon user" @click="$router.push('/perfil')">👤</span>

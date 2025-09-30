@@ -1,7 +1,10 @@
 <script setup>
 import { useRouter } from 'vue-router';
+import { ref, provide } from 'vue'
 
 const router = useRouter();
+const termoBuscaGlobal = ref('')
+provide('termoBuscaGlobal', termoBuscaGlobal)
 
 function openGoogleMaps() {
   window.open('https://maps.app.goo.gl/AoXwekmE8mBYcWsg6', '_blank');

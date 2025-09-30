@@ -2,7 +2,7 @@
 import Header from '@/assets/components/Header.vue'
 import MedicaFiltro from '@/assets/components/MedicaFiltro.vue'
 import ProdutosList from '@/assets/components/ProdutosList.vue'
-import { ref } from 'vue'
+import { ref, inject, watch } from 'vue'
 
 // Exemplo de produtos
 const produtos = ref([
@@ -230,8 +230,24 @@ const produtos = ref([
 ])
 
 const produtosFiltrados = ref([...produtos.value])
+const termoBuscaGlobal = inject('termoBuscaGlobal')
+
+const filtrosAtuais = ref({
+  categorias: [],
+  marcas: [],
+  pesos: [],
+  opcoes: [],
+  busca: {},
+  ordenacao: ''
+})
+
+watch(termoBuscaGlobal, () => {
+  filtrarProdutos(filtrosAtuais.value)
+})
+
 
 function filtrarProdutos(filtros) {
+  filtrosAtuais.value = JSON.parse(JSON.stringify(filtros))
   let lista = produtos.value
   // Filtro por categoria
   if (filtros.categorias.length) {
@@ -267,6 +283,11 @@ function filtrarProdutos(filtros) {
     lista = [...lista].sort((a, b) => a.preco - b.preco)
   } else if (filtros.ordenacao === 'Maior preço') {
     lista = [...lista].sort((a, b) => b.preco - a.preco)
+  }
+  // Aplica filtro global do Header
+  if (termoBuscaGlobal && termoBuscaGlobal.value) {
+    const termo = termoBuscaGlobal.value.toLowerCase()
+    lista = lista.filter(p => p.nome.toLowerCase().includes(termo))
   }
   produtosFiltrados.value = lista
 }
