@@ -126,7 +126,7 @@ watch([
   background: #fff;
   border-radius: 18px;
   box-shadow: 0 4px 16px #0002;
-  padding: 24px 18px;
+  padding: 18px 18px;
   width: 100%;
   display: flex;
   flex-direction: column;
