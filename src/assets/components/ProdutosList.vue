@@ -1,17 +1,30 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 const props = defineProps({ produtos: Array })
 
 const produtoSelecionado = ref(null)
 const modalAberto = ref(false)
+const quantidade = ref(1)
+
+const valorTotal = computed(() => {
+  if (!produtoSelecionado.value) return 0
+  return quantidade.value * produtoSelecionado.value.preco
+})
 
 function abrirModal(produto) {
   produtoSelecionado.value = produto
   modalAberto.value = true
+  quantidade.value = 1
 }
 function fecharModal() {
   modalAberto.value = false
   produtoSelecionado.value = null
+}
+function aumentarQtd() {
+  quantidade.value++
+}
+function diminuirQtd() {
+  if (quantidade.value > 1) quantidade.value--
 }
 </script>
 
@@ -47,6 +60,13 @@ function fecharModal() {
           <p v-if="produtoSelecionado.cor"><b>Cor:</b> {{ produtoSelecionado.cor }}</p>
           <p v-if="produtoSelecionado.volume"><b>Volume:</b> {{ produtoSelecionado.volume }}</p>
           <div class="ml-preco">R$ {{ produtoSelecionado.preco.toFixed(2) }}</div>
+          <div class="ml-qtd-area">
+            <button class="ml-qtd-btn" @click="diminuirQtd">-</button>
+            <span class="ml-qtd">{{ quantidade }}</span>
+            <button class="ml-qtd-btn" @click="aumentarQtd">+</button>
+            <span class="ml-qtd-label">unidades</span>
+          </div>
+          <div class="ml-total">Total: <b>R$ {{ valorTotal.toFixed(2) }}</b></div>
           <button class="ml-btn-comprar">Comprar agora</button>
           <p class="ml-descricao">{{ produtoSelecionado.descricao }}</p>
         </div>
@@ -192,7 +212,6 @@ function fecharModal() {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 10px;
   justify-content: flex-start;
   min-width: 260px;
 }
@@ -212,6 +231,45 @@ function fecharModal() {
   font-weight: bold;
   color: #388e3c;
   margin: 18px 0 12px 0;
+}
+.ml-qtd-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0 18px 0;
+}
+.ml-qtd-btn {
+  background: #f3f6fa;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  font-size: 1.3rem;
+  color: #f4511e;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.ml-qtd-btn:hover {
+  background: #ffe0b2;
+}
+.ml-qtd {
+  min-width: 32px;
+  text-align: center;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #222;
+}
+.ml-qtd-label {
+  font-size: 1rem;
+  color: #888;
+  margin-left: 4px;
+}
+.ml-total {
+  font-size: 1.18rem;
+  color: #f4511e;
+  font-weight: 700;
+  margin-bottom: 12px;
 }
 .ml-btn-comprar {
   background: linear-gradient(90deg, #f4511e 60%, #ff9800 100%);
