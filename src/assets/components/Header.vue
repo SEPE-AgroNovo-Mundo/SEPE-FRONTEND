@@ -6,7 +6,7 @@ export default {
 
 <script setup>
 import { defineProps, defineEmits } from 'vue'
-const props = defineProps({ modelValue: String })
+const props = defineProps({ modelValue: String, onAbrirCarrinho: Function })
 const emit = defineEmits(['update:modelValue'])
 
 const usuario = {
@@ -36,7 +36,8 @@ if (typeof window !== 'undefined') {
     </div>
     <div class="header-right">
       <input type="text" class="busca" placeholder="O que você precisa hoje?" :value="props.modelValue" @input="emit('update:modelValue', $event.target.value)" />
-      <span class="icon cart">🛒</span>
+      <span class="icon heart">❤️</span>
+      <span class="icon cart" @click="props.onAbrirCarrinho && props.onAbrirCarrinho()">🛒</span>
       <img v-if="usuario.imagem" :src="usuario.imagem" class="perfil-header" @click="$router.push('/perfil')" alt="Perfil" />
       <span v-else class="icon user" @click="$router.push('/perfil')">👤</span>
     </div>
@@ -69,7 +70,6 @@ if (typeof window !== 'undefined') {
 }
 .menu {
   display: flex;
-  gap: 22px;
 }
 .menu a {
   color: #f4511e;

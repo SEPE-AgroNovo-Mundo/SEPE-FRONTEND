@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
-const props = defineProps({ produtos: Array })
+const props = defineProps({ produtos: Array, adicionarAoCarrinho: Function })
 
 const produtoSelecionado = ref(null)
 const modalAberto = ref(false)
@@ -25,6 +25,12 @@ function aumentarQtd() {
 }
 function diminuirQtd() {
   if (quantidade.value > 1) quantidade.value--
+}
+function comprarAgora() {
+  if (props.adicionarAoCarrinho && produtoSelecionado.value) {
+    props.adicionarAoCarrinho(produtoSelecionado.value, quantidade.value)
+    fecharModal()
+  }
 }
 </script>
 
@@ -67,7 +73,7 @@ function diminuirQtd() {
             <span class="ml-qtd-label">unidades</span>
           </div>
           <div class="ml-total">Total: <b>R$ {{ valorTotal.toFixed(2) }}</b></div>
-          <button class="ml-btn-comprar">Comprar agora</button>
+          <button class="ml-btn-comprar" @click="comprarAgora">Comprar agora</button>
           <p class="ml-descricao">{{ produtoSelecionado.descricao }}</p>
         </div>
       </div>

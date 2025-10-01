@@ -2,7 +2,9 @@
 import Header from '@/assets/components/Header.vue'
 import ProdutosList from '@/assets/components/ProdutosList.vue'
 import FerragensFiltro from '@/assets/components/FerragensFiltro.vue'
-import { ref, inject, watch } from 'vue'
+import { ref, inject, watch, defineProps } from 'vue'
+
+const props = defineProps({ adicionarAoCarrinho: Function, abrirCarrinho: Function })
 
 const produtos = ref([
   {
@@ -200,13 +202,13 @@ function filtrarProdutos(filtros) {
 
 <template>
   <div class="ferragens-view">
-    <Header v-model="termoBusca" />
+    <Header v-model="termoBusca" :onAbrirCarrinho="props.abrirCarrinho" />
     <div class="conteudo">
       <aside class="filtro-lateral">
         <FerragensFiltro :produtos="produtos" @filtrar="filtrarProdutos" />
       </aside>
       <main class="produtos-area">
-        <ProdutosList :produtos="produtosFiltrados" />
+        <ProdutosList :produtos="produtosFiltrados" :adicionar-ao-carrinho="props.adicionarAoCarrinho" />
       </main>
     </div>
   </div>

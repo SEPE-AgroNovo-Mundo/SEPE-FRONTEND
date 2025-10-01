@@ -1,14 +1,44 @@
 <script setup>
 import { useRouter } from 'vue-router';
-import { ref, provide } from 'vue'
+import { ref, provide, reactive } from 'vue';
+import Carrinho from '@/assets/components/Carrinho.vue';
 
 const router = useRouter();
-const termoBuscaGlobal = ref('')
-provide('termoBuscaGlobal', termoBuscaGlobal)
+const termoBuscaGlobal = ref('');
+provide('termoBuscaGlobal', termoBuscaGlobal);
+
+const carrinho = reactive([]);
+const carrinhoAberto = ref(false);
+
+function fecharCarrinho() {
+  carrinhoAberto.value = false;
+}
+function abrirCarrinho() {
+  carrinhoAberto.value = true;
+}
+function adicionarAoCarrinho(produto, quantidade = 1) {
+  const idx = carrinho.findIndex(p => p.id === produto.id);
+  if (idx >= 0) {
+    carrinho[idx].quantidade += quantidade;
+  } else {
+    carrinho.push({ ...produto, quantidade });
+  }
+}
+function alterarQtd({ produto, delta }) {
+  const idx = carrinho.findIndex(p => p.id === produto.id);
+  if (idx >= 0) {
+    carrinho[idx].quantidade += delta;
+    if (carrinho[idx].quantidade < 1) carrinho[idx].quantidade = 1;
+  }
+}
+function removerDoCarrinho(produto) {
+  const idx = carrinho.findIndex(p => p.id === produto.id);
+  if (idx >= 0) carrinho.splice(idx, 1);
+}
 
 function openGoogleMaps() {
   window.open('https://maps.app.goo.gl/AoXwekmE8mBYcWsg6', '_blank');
-};
+}
 function oswhats() {
   window.open('https://wa.link/h475ec', '_blank');
 }
@@ -20,9 +50,15 @@ function goToLogin() {
 
 <template>
   <div>
-    <header>
-    </header>
-    <router-view />
+    <header></header>
+    <router-view v-slot="{ Component }">
+      <component
+        :is="Component"
+        :adicionar-ao-carrinho="adicionarAoCarrinho"
+        :abrir-carrinho="abrirCarrinho"
+      />
+    </router-view>
+    <Carrinho v-if="carrinhoAberto" :produtos="carrinho" @fechar="fecharCarrinho" @alterarQtd="alterarQtd" @remover="removerDoCarrinho" />
     <div v-if="$route.path === '/'" class="background">
       <div class="overlay">
         <div class="container">
