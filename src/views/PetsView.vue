@@ -70,8 +70,13 @@ const produtos = ref([
 const produtosFiltrados = ref([...produtos.value])
 const termoBuscaGlobal = inject('termoBuscaGlobal')
 const filtrosAtuais = ref({ categorias: [], marcas: [], tipos: [], cores: [], opcoes: [], busca: {}, ordenacao: '' })
+const termoBusca = ref('')
 
 watch(termoBuscaGlobal, () => {
+  filtrarProdutos(filtrosAtuais.value)
+})
+
+watch(termoBusca, () => {
   filtrarProdutos(filtrosAtuais.value)
 })
 
@@ -95,13 +100,17 @@ function filtrarProdutos(filtros) {
     const termo = termoBuscaGlobal.value.toLowerCase()
     lista = lista.filter(p => p.nome.toLowerCase().includes(termo))
   }
+  if (termoBusca.value) {
+    const termo = termoBusca.value.toLowerCase()
+    lista = lista.filter(p => p.nome.toLowerCase().includes(termo))
+  }
   produtosFiltrados.value = lista
 }
 </script>
 
 <template>
   <div class="pets-view">
-    <Header />
+    <Header v-model="termoBusca" />
     <div class="conteudo">
       <aside class="filtro-lateral">
         <PetsFiltro :produtos="produtos" @filtrar="filtrarProdutos" />

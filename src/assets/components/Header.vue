@@ -1,7 +1,13 @@
+<script>
+export default {
+  name: 'AppHeader'
+}
+</script>
+
 <script setup>
-defineOptions({ name: 'AppHeader' })
-import { inject } from 'vue'
-const termoBuscaGlobal = inject('termoBuscaGlobal')
+import { defineProps, defineEmits } from 'vue'
+const props = defineProps({ modelValue: String })
+const emit = defineEmits(['update:modelValue'])
 
 const usuario = {
   imagem: ''
@@ -12,9 +18,6 @@ if (typeof window !== 'undefined') {
     const user = JSON.parse(dados);
     usuario.imagem = user.imagem || '';
   }
-}
-function atualizarBusca(e) {
-  if (termoBuscaGlobal) termoBuscaGlobal.value = e.target.value
 }
 </script>
 
@@ -32,7 +35,7 @@ function atualizarBusca(e) {
       </nav>
     </div>
     <div class="header-right">
-      <input type="text" class="busca" placeholder="O que você precisa hoje?" :value="termoBuscaGlobal ? termoBuscaGlobal.value : ''" @input="atualizarBusca" />
+      <input type="text" class="busca" placeholder="O que você precisa hoje?" :value="props.modelValue" @input="emit('update:modelValue', $event.target.value)" />
       <span class="icon cart">🛒</span>
       <img v-if="usuario.imagem" :src="usuario.imagem" class="perfil-header" @click="$router.push('/perfil')" alt="Perfil" />
       <span v-else class="icon user" @click="$router.push('/perfil')">👤</span>

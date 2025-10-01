@@ -141,10 +141,15 @@ const filtrosAtuais = ref({
   ordenacao: ''
 })
 
+const termoBusca = ref('')
+
 watch(termoBuscaGlobal, () => {
   filtrarProdutos(filtrosAtuais.value)
 })
 
+watch(termoBusca, () => {
+  filtrarProdutos(filtrosAtuais.value)
+})
 
 function filtrarProdutos(filtros) {
   filtrosAtuais.value = JSON.parse(JSON.stringify(filtros))
@@ -185,13 +190,17 @@ function filtrarProdutos(filtros) {
     const termo = termoBuscaGlobal.value.toLowerCase()
     lista = lista.filter(p => p.nome.toLowerCase().includes(termo))
   }
+  if (termoBusca.value) {
+    const termo = termoBusca.value.toLowerCase()
+    lista = lista.filter(p => p.nome.toLowerCase().includes(termo))
+  }
   produtosFiltrados.value = lista
 }
 </script>
 
 <template>
   <div class="ferragens-view">
-    <Header />
+    <Header v-model="termoBusca" />
     <div class="conteudo">
       <aside class="filtro-lateral">
         <FerragensFiltro :produtos="produtos" @filtrar="filtrarProdutos" />

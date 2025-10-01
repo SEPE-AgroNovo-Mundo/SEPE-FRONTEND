@@ -89,6 +89,7 @@ watch(termoBuscaGlobal, () => {
   filtrarProdutos(filtrosAtuais.value)
 })
 
+const termoBusca = ref('')
 
 const produtosFiltrados = ref([...produtos.value])
 
@@ -140,13 +141,21 @@ function filtrarProdutos(filtros) {
     const termo = termoBuscaGlobal.value.toLowerCase()
     lista = lista.filter(p => p.nome.toLowerCase().includes(termo))
   }
+  if (termoBusca.value) {
+    const termo = termoBusca.value.toLowerCase()
+    lista = lista.filter(p => p.nome.toLowerCase().includes(termo))
+  }
   produtosFiltrados.value = lista
 }
+
+watch(termoBusca, () => {
+  filtrarProdutos({ categorias: [], marcas: [], tipos: [], volumes: [], pesos: [], opcoes: [], busca: {}, ordenacao: '' })
+})
 </script>
 
 <template>
   <div class="hormonios-view">
-    <Header />
+    <Header v-model="termoBusca" />
     <div class="conteudo">
       <aside class="filtro-lateral">
         <HormoniosFiltro :produtos="produtos" @filtrar="filtrarProdutos" />
