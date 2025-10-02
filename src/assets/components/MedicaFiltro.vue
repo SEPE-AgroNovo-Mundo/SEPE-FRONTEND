@@ -84,8 +84,10 @@ watch([
           <h3><span class="filtro-icone">📂</span> Categoria</h3>
           <input type="text" v-model="categoriaBusca" placeholder="Buscar categoria..." class="filtro-busca" />
           <div class="filtro-lista">
-            <label v-for="cat in categorias.filter(c => c.nome.toLowerCase().includes(categoriaBusca.toLowerCase()))" :key="cat.nome">
-              <input type="checkbox" :value="cat.nome" v-model="categoriasSelecionadas" /> {{ cat.nome }} <span class="badge">{{ categoriasContagem[cat.nome] }}</span>
+            <label v-for="cat in categorias.filter(c => c.nome.toLowerCase().includes(categoriaBusca.toLowerCase()))"
+              :key="cat.nome">
+              <input type="checkbox" :value="cat.nome" v-model="categoriasSelecionadas" /> {{ cat.nome }} <span
+                class="badge">{{ categoriasContagem[cat.nome] }}</span>
             </label>
           </div>
         </div>
@@ -133,12 +135,14 @@ watch([
   gap: 24px;
   width: 100%;
 }
+
 .filtro-scroll {
   max-height: 400px;
   overflow-y: auto;
   width: 100%;
   overflow-x: hidden;
 }
+
 .filtro-bloco {
   background: #f3f6fa;
   border-radius: 12px;
@@ -146,6 +150,7 @@ watch([
   margin-bottom: 0;
   box-shadow: 0 2px 8px #0001;
 }
+
 .filtro-bloco h3 {
   font-size: 1.08rem;
   font-weight: 700;
@@ -155,9 +160,11 @@ watch([
   align-items: center;
   gap: 8px;
 }
+
 .filtro-icone {
   font-size: 1.2rem;
 }
+
 .filtro-busca {
   width: 100%;
   padding: 7px 10px;
@@ -167,11 +174,13 @@ watch([
   font-size: 1rem;
   background: #fff;
 }
+
 .filtro-lista {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
+
 .filtro-lista label {
   display: flex;
   align-items: center;
@@ -183,6 +192,7 @@ watch([
   padding: 6px 10px;
   box-shadow: 0 1px 4px #0001;
 }
+
 .badge {
   background: #f4511e22;
   color: #f4511e;
@@ -192,6 +202,7 @@ watch([
   margin-left: 8px;
   font-weight: 600;
 }
+
 select {
   width: 100%;
   padding: 7px 10px;
@@ -201,10 +212,12 @@ select {
   background: #fff;
   margin-bottom: 4px;
 }
+
 @media (max-width: 900px) {
   .filtro-container {
     width: 100%;
   }
+
   .filtro-scroll {
     max-height: none;
     overflow-y: visible;
@@ -213,5 +226,3 @@ select {
   }
 }
 </style>
-
-

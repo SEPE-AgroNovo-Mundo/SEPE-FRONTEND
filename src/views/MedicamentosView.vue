@@ -324,6 +324,7 @@ function filtrarProdutos(filtros) {
   background: #f3f6fa;
   min-height: 100vh;
 }
+
 .conteudo {
   display: flex;
   gap: 40px;
@@ -331,24 +332,28 @@ function filtrarProdutos(filtros) {
   margin: 40px auto 0 auto;
   padding: 0 32px;
 }
+
 .filtro-lateral {
   flex: 0 0 340px;
   position: sticky;
   top: 88px;
   height: fit-content;
 }
+
 .produtos-area {
   flex: 1 1 0;
   display: flex;
   flex-direction: column;
   min-width: 0;
 }
+
 @media (max-width: 900px) {
   .conteudo {
     flex-direction: column;
     gap: 24px;
     padding: 0 8px;
   }
+
   .filtro-lateral {
     position: static;
     width: 100%;

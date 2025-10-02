@@ -89,6 +89,7 @@ function comprarAgora() {
   width: 100%;
   padding: 6px;
 }
+
 .produto-card {
   background: #fff;
   border-radius: 18px;
@@ -100,10 +101,12 @@ function comprarAgora() {
   min-height: 340px;
   transition: box-shadow 0.2s, transform 0.2s;
 }
+
 .produto-card:hover {
   box-shadow: 0 8px 32px #f4511e33;
   transform: translateY(-2px) scale(1.03);
 }
+
 .produto-img {
   width: 120px;
   height: 120px;
@@ -112,33 +115,39 @@ function comprarAgora() {
   border-radius: 12px;
   background: #f3f6fa;
 }
+
 .produto-info {
   text-align: center;
   width: 100%;
 }
+
 .produto-nome {
   font-size: 1.18rem;
   font-weight: 700;
   margin-bottom: 6px;
   color: #f4511e;
 }
+
 .produto-marca {
   font-size: 1rem;
   color: #388e3c;
   margin-bottom: 6px;
   font-weight: 500;
 }
+
 .produto-descricao {
   font-size: 0.97rem;
   color: #666;
   margin-bottom: 12px;
 }
+
 .produto-preco {
   font-size: 1.22rem;
   font-weight: bold;
   color: #388e3c;
   margin-bottom: 16px;
 }
+
 .btn-comprar {
   background: linear-gradient(90deg, #f4511e 60%, #ff9800 100%);
   color: #fff;
@@ -151,10 +160,12 @@ function comprarAgora() {
   box-shadow: 0 2px 8px #f4511e22;
   transition: background 0.2s, transform 0.2s;
 }
+
 .btn-comprar:hover {
   background: linear-gradient(90deg, #d84315 60%, #f59e0b 100%);
   transform: scale(1.05);
 }
+
 .nenhum-produto {
   grid-column: 1/-1;
   text-align: center;
@@ -162,15 +173,20 @@ function comprarAgora() {
   font-size: 1.1rem;
   margin-top: 32px;
 }
+
 .modal-produto-ml {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.45);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
 }
+
 .modal-ml-conteudo {
   background: #fff;
   border-radius: 18px;
@@ -182,6 +198,7 @@ function comprarAgora() {
   overflow-y: auto;
   position: relative;
 }
+
 .fechar-modal-ml {
   position: absolute;
   top: 18px;
@@ -193,12 +210,14 @@ function comprarAgora() {
   cursor: pointer;
   z-index: 10;
 }
+
 .ml-flex {
   display: flex;
   flex-direction: row;
   gap: 32px;
   padding: 38px 38px 28px 38px;
 }
+
 .ml-imgs {
   display: flex;
   flex-direction: column;
@@ -206,6 +225,7 @@ function comprarAgora() {
   min-width: 260px;
   max-width: 340px;
 }
+
 .ml-img-grande {
   width: 320px;
   height: 320px;
@@ -214,6 +234,7 @@ function comprarAgora() {
   background: #f3f6fa;
   box-shadow: 0 2px 12px #0001;
 }
+
 .ml-info {
   flex: 1;
   display: flex;
@@ -221,29 +242,34 @@ function comprarAgora() {
   justify-content: flex-start;
   min-width: 260px;
 }
+
 .ml-nome {
   font-size: 1.35rem;
   font-weight: 700;
   color: #222;
   margin-bottom: 8px;
 }
+
 .ml-marca {
   font-size: 1.08rem;
   color: #388e3c;
   margin-bottom: 4px;
 }
+
 .ml-preco {
   font-size: 1.55rem;
   font-weight: bold;
   color: #388e3c;
   margin: 18px 0 12px 0;
 }
+
 .ml-qtd-area {
   display: flex;
   align-items: center;
   gap: 8px;
   margin: 12px 0 18px 0;
 }
+
 .ml-qtd-btn {
   background: #f3f6fa;
   border: 1px solid #eee;
@@ -256,9 +282,11 @@ function comprarAgora() {
   cursor: pointer;
   transition: background 0.2s;
 }
+
 .ml-qtd-btn:hover {
   background: #ffe0b2;
 }
+
 .ml-qtd {
   min-width: 32px;
   text-align: center;
@@ -266,17 +294,20 @@ function comprarAgora() {
   font-weight: 600;
   color: #222;
 }
+
 .ml-qtd-label {
   font-size: 1rem;
   color: #888;
   margin-left: 4px;
 }
+
 .ml-total {
   font-size: 1.18rem;
   color: #f4511e;
   font-weight: 700;
   margin-bottom: 12px;
 }
+
 .ml-btn-comprar {
   background: linear-gradient(90deg, #f4511e 60%, #ff9800 100%);
   color: #fff;
@@ -290,25 +321,30 @@ function comprarAgora() {
   transition: background 0.2s, transform 0.2s;
   margin-bottom: 18px;
 }
+
 .ml-btn-comprar:hover {
   background: linear-gradient(90deg, #d84315 60%, #f59e0b 100%);
   transform: scale(1.05);
 }
+
 .ml-descricao {
   color: #444;
   font-size: 1.08rem;
   margin-top: 10px;
 }
+
 @media (max-width: 900px) {
   .modal-ml-conteudo {
     min-width: 0;
     max-width: 99vw;
   }
+
   .ml-flex {
     flex-direction: column;
     gap: 18px;
     padding: 18px 8vw 18px 8vw;
   }
+
   .ml-img-grande {
     width: 98vw;
     height: 220px;

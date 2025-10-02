@@ -52,13 +52,10 @@ function goToLogin() {
   <div>
     <header></header>
     <router-view v-slot="{ Component }">
-      <component
-        :is="Component"
-        :adicionar-ao-carrinho="adicionarAoCarrinho"
-        :abrir-carrinho="abrirCarrinho"
-      />
+      <component :is="Component" :adicionar-ao-carrinho="adicionarAoCarrinho" :abrir-carrinho="abrirCarrinho" />
     </router-view>
-    <Carrinho v-if="carrinhoAberto" :produtos="carrinho" @fechar="fecharCarrinho" @alterarQtd="alterarQtd" @remover="removerDoCarrinho" />
+    <Carrinho v-if="carrinhoAberto" :produtos="carrinho" @fechar="fecharCarrinho" @alterarQtd="alterarQtd"
+      @remover="removerDoCarrinho" />
     <div v-if="$route.path === '/'" class="background">
       <div class="overlay">
         <div class="container">
@@ -217,7 +214,9 @@ nav a:first-of-type {
 </style>
 
 <style>
-html, body, #app {
+html,
+body,
+#app {
   width: 100vw;
   height: 100vh;
   margin: 0;

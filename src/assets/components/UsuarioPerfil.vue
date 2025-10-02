@@ -145,7 +145,8 @@ function excluirUsuario(id) {
 
 <template>
   <div class="usuario-perfil-externo">
-    <img src="@/assets/imagens/seta-preta.png" class="seta-voltar-topo" @click="$router.push('/medicamentos')" alt="Voltar" />
+    <img src="@/assets/imagens/seta-preta.png" class="seta-voltar-topo" @click="$router.push('/medicamentos')"
+      alt="Voltar" />
     <div class="usuario-perfil-card">
       <div class="perfil-foto-area">
         <img :src="usuario.imagem || logo" alt="Foto do usuário" class="foto-usuario" v-if="!cadastrando" />
@@ -216,7 +217,8 @@ function excluirUsuario(id) {
             <span style="flex:1;display:flex;align-items:center;gap:10px;cursor:pointer" @click="selecionarUsuario(u)">
               <img :src="u.imagem || logo" class="mini-foto" /> {{ u.nome }} ({{ u.email }})
             </span>
-            <button @click.stop="excluirUsuario(u.id)" style="background:#eee;color:#f4511e;border:none;padding:4px 10px;border-radius:6px;font-size:0.95rem;cursor:pointer;">Excluir</button>
+            <button @click.stop="excluirUsuario(u.id)"
+              style="background:#eee;color:#f4511e;border:none;padding:4px 10px;border-radius:6px;font-size:0.95rem;cursor:pointer;">Excluir</button>
           </div>
         </li>
       </ul>
@@ -230,6 +232,7 @@ function excluirUsuario(id) {
   max-width: 420px;
   margin: 64px auto 32px auto;
 }
+
 .seta-voltar-topo {
   position: fixed;
   top: 24px;
@@ -244,9 +247,11 @@ function excluirUsuario(id) {
   padding: 4px;
   transition: background 0.2s;
 }
+
 .seta-voltar-topo:hover {
   background: #f3f6fa;
 }
+
 .usuario-perfil-card {
   background: #fff;
   border-radius: 22px;
@@ -258,6 +263,7 @@ function excluirUsuario(id) {
   gap: 18px;
   min-width: 320px;
 }
+
 .perfil-foto-area {
   display: flex;
   flex-direction: row;
@@ -266,6 +272,7 @@ function excluirUsuario(id) {
   width: 100%;
   justify-content: center;
 }
+
 .foto-usuario {
   width: 90px;
   height: 90px;
@@ -275,25 +282,30 @@ function excluirUsuario(id) {
   background: #f3f6fa;
   box-shadow: 0 2px 8px #f4511e22;
 }
+
 .perfil-nome-email {
   display: flex;
   flex-direction: column;
   gap: 6px;
   align-items: flex-start;
 }
+
 .usuario-nome {
   font-size: 1.25rem;
   font-weight: 700;
   color: #f4511e;
 }
+
 .usuario-email {
   font-size: 1.08rem;
   color: #444;
 }
+
 .usuario-id {
   font-size: 0.98rem;
   color: #888;
 }
+
 .form-cadastro {
   display: flex;
   flex-direction: column;
@@ -301,6 +313,7 @@ function excluirUsuario(id) {
   width: 100%;
   margin-top: 10px;
 }
+
 .form-titulo {
   font-size: 1.15rem;
   font-weight: 700;
@@ -308,6 +321,7 @@ function excluirUsuario(id) {
   margin-bottom: 8px;
   text-align: center;
 }
+
 .form-cadastro label {
   display: flex;
   flex-direction: column;
@@ -315,6 +329,7 @@ function excluirUsuario(id) {
   color: #333;
   gap: 4px;
 }
+
 .form-cadastro input[type="text"],
 .form-cadastro input[type="email"],
 .form-cadastro input[type="password"] {
@@ -324,9 +339,11 @@ function excluirUsuario(id) {
   font-size: 1rem;
   background: #f3f6fa;
 }
+
 .form-cadastro input[type="file"] {
   margin-top: 4px;
 }
+
 .form-cadastro button {
   background: #f4511e;
   color: #fff;
@@ -339,15 +356,18 @@ function excluirUsuario(id) {
   margin-top: 8px;
   transition: background 0.2s;
 }
+
 .form-cadastro button:hover {
   background: #d84315;
 }
+
 .botoes-usuario {
   width: 100%;
   display: flex;
   justify-content: center;
   gap: 10px;
 }
+
 .btn-logout {
   background: #fff;
   color: #f4511e;
@@ -360,10 +380,12 @@ function excluirUsuario(id) {
   margin-top: 8px;
   transition: background 0.2s, color 0.2s;
 }
+
 .btn-logout:hover {
   background: #f4511e;
   color: #fff;
 }
+
 .btn-editar {
   background: #f4511e;
   color: #fff;
@@ -376,9 +398,11 @@ function excluirUsuario(id) {
   margin-top: 8px;
   transition: background 0.2s;
 }
+
 .btn-editar:hover {
   background: #d84315;
 }
+
 .form-edicao {
   display: flex;
   flex-direction: column;
@@ -386,6 +410,7 @@ function excluirUsuario(id) {
   width: 100%;
   margin-top: 10px;
 }
+
 .form-edicao label {
   display: flex;
   flex-direction: column;
@@ -393,6 +418,7 @@ function excluirUsuario(id) {
   color: #333;
   gap: 4px;
 }
+
 .form-edicao input[type="text"],
 .form-edicao input[type="email"] {
   padding: 7px 10px;
@@ -401,9 +427,11 @@ function excluirUsuario(id) {
   font-size: 1rem;
   background: #f3f6fa;
 }
+
 .form-edicao input[type="file"] {
   margin-top: 4px;
 }
+
 .form-edicao button {
   background: #f4511e;
   color: #fff;
@@ -416,9 +444,11 @@ function excluirUsuario(id) {
   margin-top: 8px;
   transition: background 0.2s;
 }
+
 .form-edicao button:hover {
   background: #d84315;
 }
+
 .modal {
   position: fixed;
   top: 0;
@@ -431,6 +461,7 @@ function excluirUsuario(id) {
   align-items: center;
   z-index: 2000;
 }
+
 .modal-content {
   background: #fff;
   padding: 24px 32px;
@@ -439,10 +470,12 @@ function excluirUsuario(id) {
   text-align: center;
   min-width: 260px;
 }
+
 .modal-content h3 {
   margin-bottom: 16px;
   color: #f4511e;
 }
+
 .modal-content button {
   background: #f4511e;
   color: #fff;
@@ -455,14 +488,17 @@ function excluirUsuario(id) {
   margin: 8px 4px;
   transition: background 0.2s;
 }
+
 .modal-content button:hover {
   background: #d84315;
 }
+
 .modal-content ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
+
 .modal-content li {
   padding: 10px 0;
   cursor: pointer;
@@ -472,12 +508,15 @@ function excluirUsuario(id) {
   gap: 10px;
   border-bottom: 1px solid #eee;
 }
+
 .modal-content li:last-child {
   border-bottom: none;
 }
+
 .modal-content li:hover {
   background: #f3f6fa;
 }
+
 .mini-foto {
   width: 32px;
   height: 32px;
@@ -486,11 +525,13 @@ function excluirUsuario(id) {
   border: 2px solid #f4511e44;
   background: #f3f6fa;
 }
+
 @media (max-width: 600px) {
   .usuario-perfil-card {
     padding: 18px 6vw 18px 6vw;
     min-width: unset;
   }
+
   .usuario-perfil-externo {
     margin: 64px 0 32px 0;
     max-width: 98vw;
