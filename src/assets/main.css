@@ -1,5 +1,140 @@
+/* Estilos globais para filtros */
+.filtro-container {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 16px #0002;
+  padding: 24px 18px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow-x: hidden;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 18px 12px;
+  box-sizing: border-box;
+}
 .filtro-scroll {
   max-height: 400px;
   overflow-y: auto;
+  width: 100%;
+  overflow-x: hidden;
+}
+.filtro-bloco {
+  background: #f3f6fa;
+  border-radius: 12px;
+  padding: 16px 12px;
+  margin-bottom: 0;
+  box-shadow: 0 2px 8px #0001;
+}
+.filtro-bloco h3 {
+  font-size: 1.08rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #f4511e;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.filtro-icone {
+  font-size: 1.2rem;
+}
+.filtro-busca {
+  width: 100%;
+  padding: 7px 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  background: #fff;
+}
+.filtro-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.filtro-lista label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1rem;
+  color: #222;
+  background: #fff;
+  border-radius: 6px;
+  padding: 6px 10px;
+  box-shadow: 0 1px 4px #0001;
+}
+.badge {
+  background: #f4511e22;
+  color: #f4511e;
+  border-radius: 10px;
+  padding: 2px 8px;
+  font-size: 0.88rem;
+  margin-left: 8px;
+  font-weight: 600;
+}
+select {
+  width: 100%;
+  padding: 7px 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  background: #fff;
+  margin-bottom: 4px;
+}
+@media (max-width: 900px) {
+  .filtro-container {
+    width: 100%;
+    padding: 12px 4vw;
+    border-radius: 10px;
+    max-width: 99vw;
+    padding: 12px 2vw;
+  }
+  .filtro-scroll {
+    max-height: none;
+    overflow-y: visible;
+    width: 100%;
+    overflow-x: hidden;
+  }
+  .filtro-bloco {
+    padding: 10px 6px;
+    border-radius: 8px;
+  }
+  .filtro-busca,
+  select {
+    font-size: 0.98rem;
+    padding: 6px 8px;
+    border-radius: 6px;
+  }
+  .filtro-lista label {
+    font-size: 0.98rem;
+    padding: 5px 6px;
+    border-radius: 5px;
+  }
+}
+@media (max-width: 600px) {
+  .filtro-container {
+    padding: 6px 2vw;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 6px 1vw;
+    max-width: 99vw;
+  }
+  .filtro-bloco {
+    padding: 6px 2px;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .filtro-busca,
+  select {
+    font-size: 0.95rem;
+    padding: 5px 4px;
+    border-radius: 4px;
+  }
+  .filtro-lista label {
+    font-size: 0.95rem;
+    padding: 4px 2px;
+    border-radius: 3px;
+  }
 }
 
