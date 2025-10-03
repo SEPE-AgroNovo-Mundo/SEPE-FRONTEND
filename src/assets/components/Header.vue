@@ -110,6 +110,7 @@ onBeforeUnmount(() => {
 
 .menu {
   display: flex;
+  margin-left: auto;
 }
 
 .menu a {

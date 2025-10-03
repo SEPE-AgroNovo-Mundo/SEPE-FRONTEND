@@ -16,6 +16,17 @@ const precisaTroco = ref(false)
 const valorTroco = ref('')
 
 const showConfirmAlert = ref(false)
+const errorMessage = ref('')
+const showError = ref(false)
+
+function exibirErro(msg) {
+  errorMessage.value = msg
+  showError.value = true
+  setTimeout(() => {
+    showError.value = false
+    errorMessage.value = ''
+  }, 2600)
+}
 
 watch(() => props.produtos, (novos) => {
   selecionados.value = selecionados.value.filter(id => novos.some(p => p.id === id))
@@ -31,34 +42,39 @@ const total = computed(() =>
 function continuarCompra() {
   if (step.value === 1) {
     if (selecionados.value.length === 0) {
-      alert('Selecione pelo menos um produto para comprar!')
+      exibirErro('Selecione pelo menos um produto para comprar!')
       return
     }
     step.value = 2
   } else if (step.value === 2) {
-    // Validação simples do endereço
-    if (!endereco.value.nome || !endereco.value.rua || !endereco.value.numero || !endereco.value.bairro || !endereco.value.cidade || !endereco.value.estado || !endereco.value.cep) {
-      alert('Preencha todos os campos do endereço!')
+    if (!tipoCompra.value) {
+      exibirErro('Selecione o tipo de recebimento!')
       return
     }
-    step.value = 3
+    // Se for entrega, pede endereço, senão pula para pagamento
+    if (tipoCompra.value === 'entrega') {
+      step.value = 3
+    } else {
+      step.value = 4
+    }
   } else if (step.value === 3) {
-    if (!tipoCompra.value) {
-      alert('Selecione o tipo de compra!')
+    // Validação simples do endereço
+    if (!endereco.value.nome || !endereco.value.rua || !endereco.value.numero || !endereco.value.bairro || !endereco.value.cidade || !endereco.value.estado || !endereco.value.cep) {
+      exibirErro('Preencha todos os campos do endereço!')
       return
     }
     step.value = 4
   } else if (step.value === 4) {
     if (!tipoPagamento.value) {
-      alert('Selecione o tipo de pagamento!')
+      exibirErro('Selecione o tipo de pagamento!')
       return
     }
     if (tipoPagamento.value === 'cartao' && !tipoCartao.value) {
-      alert('Selecione débito ou crédito!')
+      exibirErro('Selecione débito ou crédito!')
       return
     }
     if (tipoPagamento.value === 'dinheiro' && precisaTroco.value && (!valorTroco.value || isNaN(Number(valorTroco.value)) || Number(valorTroco.value) <= total.value)) {
-      alert('Informe um valor válido para o troco!')
+      exibirErro('Informe um valor válido para o troco!')
       return
     }
     step.value = 5
@@ -79,6 +95,14 @@ function continuarCompra() {
 }
 
 function voltarEtapa() {
+  if (step.value === 4 && tipoCompra.value === 'retirar') {
+    step.value = 2
+    return
+  }
+  if (step.value === 3 && tipoCompra.value === 'entrega') {
+    step.value = 2
+    return
+  }
   if (step.value > 1) {
     step.value -= 1
   }
@@ -88,11 +112,21 @@ function voltarEtapa() {
 <template>
   <div class="carrinho-modal">
     <div class="carrinho-box">
+      <div v-if="showError" class="alert-erro">
+        <span>{{ errorMessage }}</span>
+        <button class="fechar-alerta" @click="showError = false">×</button>
+      </div>
       <button class="carrinho-fechar" @click="emit('fechar')">&times;</button>
       <div v-if="showConfirmAlert" class="alert-confirmacao">
         <div class="alert-content">
           <span class="alert-icon">🎉</span>
           <div class="alert-msg">Seu pedido foi realizado com sucesso!</div>
+        </div>
+      </div>
+      <div v-if="showError" class="alert-confirmacao">
+        <div class="alert-content">
+          <span class="alert-icon">⚠️</span>
+          <div class="alert-msg">{{ errorMessage }}</div>
         </div>
       </div>
       <div v-if="step === 1">
@@ -132,6 +166,21 @@ function voltarEtapa() {
         </div>
       </div>
       <div v-else-if="step === 2" class="carrinho-etapa">
+        <h3>Tipo de recebimento</h3>
+        <div class="tipo-compra-opcoes">
+          <label class="tipo-compra-opcao" :class="{ selected: tipoCompra === 'retirar' }">
+            <input type="radio" v-model="tipoCompra" value="retirar" /> Retirar na Distribuidora
+          </label>
+          <label class="tipo-compra-opcao" :class="{ selected: tipoCompra === 'entrega' }">
+            <input type="radio" v-model="tipoCompra" value="entrega" /> Receber em casa
+          </label>
+        </div>
+        <div class="botoes-centro">
+          <button type="button" @click="voltarEtapa">Voltar</button>
+          <button type="button" @click="continuarCompra">Próximo</button>
+        </div>
+      </div>
+      <div v-else-if="step === 3 && tipoCompra === 'entrega'" class="carrinho-etapa">
         <h3>Endereço de entrega</h3>
         <form @submit.prevent="continuarCompra">
           <input v-model="endereco.nome" placeholder="Nome completo" required />
@@ -147,22 +196,7 @@ function voltarEtapa() {
           </div>
         </form>
       </div>
-      <div v-else-if="step === 3" class="carrinho-etapa">
-        <h3>Tipo de compra</h3>
-        <div class="tipo-compra-opcoes">
-          <label class="tipo-compra-opcao" :class="{ selected: tipoCompra === 'retirar' }">
-            <input type="radio" v-model="tipoCompra" value="retirar" /> Retirar na loja
-          </label>
-          <label class="tipo-compra-opcao" :class="{ selected: tipoCompra === 'entrega' }">
-            <input type="radio" v-model="tipoCompra" value="entrega" /> Receber em casa
-          </label>
-        </div>
-        <div class="botoes-centro">
-          <button type="button" @click="voltarEtapa">Voltar</button>
-          <button type="button" @click="continuarCompra">Próximo</button>
-        </div>
-      </div>
-      <div v-else-if="step === 4" class="carrinho-etapa">
+      <div v-else-if="(step === 3 && tipoCompra === 'retirar') || step === 4" class="carrinho-etapa">
         <h3>Pagamento</h3>
         <div class="tipo-compra-opcoes">
           <label class="tipo-compra-opcao" :class="{ selected: tipoPagamento === 'dinheiro' }">
@@ -200,7 +234,7 @@ function voltarEtapa() {
       <div v-else-if="step === 5" class="carrinho-etapa">
         <h3>Confirmação da compra</h3>
         <div class="confirmacao-compra">
-          <div>
+          <div v-if="tipoCompra === 'entrega'">
             <b>Endereço:</b><br />
             {{ endereco.nome }}, {{ endereco.rua }}, {{ endereco.numero }}, {{ endereco.bairro }}, {{ endereco.cidade }}-{{ endereco.estado }}, CEP: {{ endereco.cep }}
           </div>
@@ -595,6 +629,28 @@ function voltarEtapa() {
   margin-top: 6px;
 }
 
+.alert-erro {
+  background: #ffdddd;
+  color: #a94442;
+  border: 1px solid #f5c6cb;
+  padding: 12px 20px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+.fechar-alerta {
+  background: transparent;
+  border: none;
+  color: #a94442;
+  font-size: 20px;
+  cursor: pointer;
+  margin-left: 16px;
+}
+
 @media (max-width: 900px) {
   .carrinho-box {
     min-width: 0;
@@ -657,7 +713,62 @@ function voltarEtapa() {
     padding: 18px 12px 14px 12px;
     font-size: 1rem;
   }
+  .carrinho-etapa form {
+    padding: 8px 2vw;
+    max-width: 99vw;
+  }
+  .carrinho-etapa form label,
+  .carrinho-etapa form input,
+  .carrinho-etapa form select,
+  .carrinho-etapa form button {
+    font-size: 0.98rem;
+  }
 }
+
+@media (max-width: 700px) {
+  .carrinho-box {
+    min-width: unset;
+    max-width: 99vw;
+    width: 99vw;
+    border-radius: 0;
+    padding: 0;
+  }
+  .carrinho-flex {
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 4vw 16px 4vw;
+  }
+  .carrinho-resumo {
+    max-width: 100%;
+    width: 100%;
+    padding: 18px 8px;
+    align-items: stretch;
+    margin-top: 12px;
+  }
+  .carrinho-resumo-titulo,
+  .carrinho-resumo-total {
+    font-size: 1rem;
+  }
+  .carrinho-btn-finalizar {
+    font-size: 1rem;
+    padding: 10px 0;
+  }
+  .carrinho-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 8px;
+  }
+  .carrinho-preco-area {
+    align-items: flex-start;
+    margin-left: 0;
+    min-width: unset;
+  }
+  .carrinho-qtd-area {
+    margin-left: 0;
+  }
+}
+
 @media (max-width: 600px) {
   .carrinho-box {
     border-radius: 0;
@@ -681,6 +792,94 @@ function voltarEtapa() {
     width: 100vw;
     max-width: 100vw;
     justify-content: flex-start;
+  }
+  .carrinho-etapa form {
+    padding: 4px 1vw;
+    max-width: 99vw;
+    gap: 8px;
+  }
+  .carrinho-etapa form label,
+  .carrinho-etapa form input,
+  .carrinho-etapa form select,
+  .carrinho-etapa form button {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .carrinho-box {
+    min-width: unset;
+    max-width: 100vw;
+    width: 100vw;
+    border-radius: 0;
+    padding: 0;
+  }
+  .carrinho-flex {
+    flex-direction: column;
+    gap: 10px;
+    padding: 8px 1vw 8px 1vw;
+  }
+  .carrinho-resumo {
+    padding: 8px 2vw;
+    font-size: 0.98rem;
+  }
+  .carrinho-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px 4px;
+  }
+  .carrinho-img {
+    width: 48px;
+    height: 48px;
+  }
+  .carrinho-preco-area {
+    align-items: flex-start;
+    margin-left: 0;
+    min-width: unset;
+  }
+  .carrinho-qtd-area {
+    margin-left: 0;
+  }
+  .carrinho-etapa form,
+  .carrinho-etapa .confirmacao-compra {
+    padding: 4px 1vw;
+    max-width: 100vw;
+    gap: 6px;
+  }
+  .carrinho-etapa form label,
+  .carrinho-etapa form input,
+  .carrinho-etapa form select,
+  .carrinho-etapa form button {
+    font-size: 0.93rem;
+  }
+  .carrinho-etapa button {
+    width: 100%;
+    padding: 10px 0;
+  }
+  .carrinho-etapa input,
+  .carrinho-etapa select {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .carrinho-resumo-titulo,
+  .carrinho-resumo-total {
+    font-size: 0.98rem;
+  }
+  .alert-confirmacao {
+    right: 0;
+    top: 0;
+    border-radius: 0 0 12px 12px;
+    width: 100vw;
+    max-width: 100vw;
+    justify-content: flex-start;
+    padding: 10px 2vw;
+    font-size: 0.98rem;
+  }
+  .carrinho-lista {
+    overflow-x: auto;
+    width: 100vw;
+    min-width: 0;
   }
 }
 

@@ -612,4 +612,70 @@ function excluirUsuario(id) {
     max-width: 98vw;
   }
 }
+
+@media (max-width: 900px) {
+  .form-edicao {
+    padding: 8px 2vw;
+    max-width: 99vw;
+  }
+  .form-edicao label {
+    font-size: 0.98rem;
+  }
+  .form-edicao input[type="text"],
+  .form-edicao input[type="email"],
+  .form-edicao input[type="file"],
+  .form-edicao button {
+    font-size: 0.98rem;
+    padding: 8px 8px;
+  }
+}
+@media (max-width: 600px) {
+  .form-edicao {
+    padding: 4px 1vw;
+    max-width: 99vw;
+    gap: 8px;
+  }
+  .form-edicao label {
+    font-size: 0.95rem;
+  }
+  .form-edicao input[type="text"],
+  .form-edicao input[type="email"],
+  .form-edicao input[type="file"],
+  .form-edicao button {
+    font-size: 0.95rem;
+    padding: 7px 6px;
+  }
+}
+
+@media (max-width: 900px) {
+  .usuario-perfil-form {
+    padding: 12px 2vw;
+    max-width: 99vw;
+  }
+  .usuario-perfil-form label,
+  .usuario-perfil-form input,
+  .usuario-perfil-form select,
+  .usuario-perfil-form button {
+    font-size: 0.98rem;
+  }
+}
+@media (max-width: 600px) {
+  .usuario-perfil-form {
+    padding: 6px 1vw;
+    max-width: 99vw;
+    gap: 8px;
+  }
+  .usuario-perfil-form label,
+  .usuario-perfil-form input,
+  .usuario-perfil-form select,
+  .usuario-perfil-form button {
+    font-size: 0.95rem;
+  }
+}
+.usuario-perfil-form input,
+.usuario-perfil-form select,
+.usuario-perfil-form button {
+  width: 100%;
+  box-sizing: border-box;
+}
 </style>
