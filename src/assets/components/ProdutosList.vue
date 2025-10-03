@@ -1,6 +1,9 @@
 <script setup>
 import { ref, computed } from 'vue'
-const props = defineProps({ produtos: Array, adicionarAoCarrinho: Function, expandido: Boolean })
+import favoritoCheioImg from '@/assets/imagens/favorito-cheio.png'
+import favoritoVazioImg from '@/assets/imagens/favorito.png'
+const emit = defineEmits(['toggle-favorito'])
+const props = defineProps({ produtos: Array, adicionarAoCarrinho: Function, expandido: Boolean, favoritos: Array })
 
 const produtoSelecionado = ref(null)
 const modalAberto = ref(false)
@@ -32,11 +35,20 @@ function comprarAgora() {
     fecharModal()
   }
 }
+
+function isFavoritado(p) {
+  return props.favoritos && props.favoritos.some(f => f.id === p.id && f.nome === p.nome && f.marca === p.marca)
+}
 </script>
 
 <template>
   <div class="produtos-list" :class="{ expandido: props.expandido }">
     <div v-for="produto in props.produtos" :key="produto.id" class="produto-card">
+      <div class="favorito-icone" @click.stop="emit('toggle-favorito', produto)">
+        <img :src="isFavoritado(produto) ? favoritoCheioImg : favoritoVazioImg"
+             :class="{ 'favoritado': isFavoritado(produto) }"
+             alt="Favorito" />
+      </div>
       <img :src="produto.imagem" :alt="produto.nome" class="produto-img" />
       <div class="produto-info">
         <h2 class="produto-nome">{{ produto.nome }}</h2>
@@ -128,6 +140,7 @@ function comprarAgora() {
   align-items: center;
   min-height: 340px;
   transition: box-shadow 0.2s, transform 0.2s;
+  position: relative;
 }
 
 .produto-card:hover {
@@ -514,5 +527,25 @@ function comprarAgora() {
     margin: 0 !important;
     padding: 0 !important;
   }
+}
+
+.favorito-icone {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  z-index: 2;
+}
+.favorito-icone img {
+  width: 100%;
+  height: 100%;
+  filter: grayscale(1) brightness(1.5);
+  opacity: 0.7;
+  transition: filter 0.2s, opacity 0.2s;
+}
+.favorito-icone img.favoritado {
+  filter: invert(18%) sepia(99%) saturate(7482%) hue-rotate(357deg) brightness(97%) contrast(119%);
 }
 </style>

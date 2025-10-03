@@ -15,7 +15,11 @@ import Header from '../components/Header.vue';
 import UsuarioPerfil from '../components/UsuarioPerfil.vue';
 
 const routes = [
-
+  {
+    path: '/',
+    component: MedicamentosView, // ou outro componente principal desejado
+    name: 'Home'
+  },
   {
     path: '/medicamentos',
     component: MedicamentosView,

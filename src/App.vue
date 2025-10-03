@@ -2,6 +2,7 @@
 import { useRouter } from 'vue-router';
 import { ref, provide, reactive } from 'vue';
 import Carrinho from '@/assets/components/Carrinho.vue';
+import ProdutosList from '@/assets/components/ProdutosList.vue';
 
 const router = useRouter();
 const termoBuscaGlobal = ref('');
@@ -46,16 +47,67 @@ function oswhats() {
 function goToLogin() {
   router.push('/medicamentos');
 }
+
+const favoritos = reactive([])
+
+// Carregar favoritos do localStorage ao iniciar
+if (typeof window !== 'undefined') {
+  const favSalvos = localStorage.getItem('favoritos')
+  if (favSalvos) {
+    try {
+      const favs = JSON.parse(favSalvos)
+      favoritos.splice(0, favoritos.length, ...favs)
+    } catch {
+      // Ignorar erro ao fazer parse dos favoritos salvos
+    }
+  }
+}
+
+function salvarFavoritos() {
+  localStorage.setItem('favoritos', JSON.stringify(favoritos))
+}
+
+function toggleFavorito(produto) {
+  const idx = favoritos.findIndex(p => p.id === produto.id)
+  if (idx >= 0) {
+    favoritos.splice(idx, 1)
+  } else {
+    favoritos.push(produto)
+  }
+  salvarFavoritos()
+}
+
+const exibirFavoritos = ref(false)
+function abrirFavoritos() {
+  exibirFavoritos.value = true
+}
+function fecharFavoritos() {
+  exibirFavoritos.value = false
+}
 </script>
 
 <template>
   <div>
-    <header></header>
+    <header>
+      <button class="btn-favoritos" @click="abrirFavoritos">❤️ Favoritos ({{ favoritos.length }})</button>
+    </header>
     <router-view v-slot="{ Component }">
-      <component :is="Component" :adicionar-ao-carrinho="adicionarAoCarrinho" :abrir-carrinho="abrirCarrinho" />
+      <component :is="Component"
+        :adicionar-ao-carrinho="adicionarAoCarrinho"
+        :abrir-carrinho="abrirCarrinho"
+        :favoritos="favoritos"
+        @toggle-favorito="toggleFavorito"
+      />
     </router-view>
     <Carrinho v-if="carrinhoAberto" :produtos="carrinho" @fechar="fecharCarrinho" @alterarQtd="alterarQtd"
       @remover="removerDoCarrinho" />
+    <div v-if="exibirFavoritos" class="favoritos-modal">
+      <div class="favoritos-content">
+        <h2>Favoritos</h2>
+        <button class="fechar" @click="fecharFavoritos">Fechar</button>
+        <ProdutosList :produtos="favoritos" :favoritos="favoritos" @toggle-favorito="toggleFavorito" />
+      </div>
+    </div>
     <div v-if="$route.path === '/'" class="background">
       <div class="overlay">
         <div class="container">
@@ -210,6 +262,54 @@ nav a:first-of-type {
 
 .btn.green:hover {
   background-color: #059669;
+}
+
+.btn-favoritos {
+  position: absolute;
+  top: 16px;
+  right: 24px;
+  background: #fff;
+  color: #e11d48;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  padding: 6px 18px;
+  font-size: 1rem;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  transition: background 0.2s;
+}
+.btn-favoritos:hover {
+  background: #f3f4f6;
+}
+.favoritos-modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.favoritos-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  min-width: 320px;
+  max-width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+}
+.favoritos-content .fechar {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #e11d48;
 }
 </style>
 

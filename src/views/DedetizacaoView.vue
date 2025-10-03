@@ -2,9 +2,10 @@
 import Header from '@/assets/components/Header.vue'
 import DedetizacaoFiltro from '@/assets/components/DedetizacaoFiltro.vue'
 import ProdutosList from '@/assets/components/ProdutosList.vue'
-import { ref, inject, watch, defineProps } from 'vue'
+import { ref, inject, watch, defineProps, defineEmits } from 'vue'
 
-const props = defineProps({ adicionarAoCarrinho: Function, abrirCarrinho: Function })
+const props = defineProps({ adicionarAoCarrinho: Function, abrirCarrinho: Function, favoritos: Array })
+const emit = defineEmits(['toggle-favorito'])
 
 const produtos = ref([
   {
@@ -149,7 +150,7 @@ function filtrarProdutos(filtros) {
         </transition>
       </aside>
       <main class="produtos-area" :class="{ expandido: !filtroVisivel }">
-        <ProdutosList :produtos="produtosFiltrados" :adicionar-ao-carrinho="props.adicionarAoCarrinho" :expandido="!filtroVisivel" />
+        <ProdutosList :produtos="produtosFiltrados" :adicionarAoCarrinho="props.adicionarAoCarrinho" :favoritos="props.favoritos" @toggle-favorito="emit('toggle-favorito', $event)" :expandido="!filtroVisivel" />
       </main>
     </div>
   </div>

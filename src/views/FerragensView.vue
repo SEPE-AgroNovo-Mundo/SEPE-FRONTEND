@@ -2,9 +2,10 @@
 import Header from '@/assets/components/Header.vue'
 import ProdutosList from '@/assets/components/ProdutosList.vue'
 import FerragensFiltro from '@/assets/components/FerragensFiltro.vue'
-import { ref, inject, watch, defineProps } from 'vue'
+import { ref, inject, watch, defineProps, defineEmits } from 'vue'
 
-const props = defineProps({ adicionarAoCarrinho: Function, abrirCarrinho: Function })
+const props = defineProps({ adicionarAoCarrinho: Function, abrirCarrinho: Function, favoritos: Array })
+const emit = defineEmits(['toggle-favorito'])
 
 const produtos = ref([
   {
@@ -220,7 +221,12 @@ function filtrarProdutos(filtros) {
         </transition>
       </aside>
       <main class="produtos-area">
-        <ProdutosList :produtos="produtosFiltrados" :adicionar-ao-carrinho="props.adicionarAoCarrinho" />
+        <ProdutosList
+          :produtos="produtosFiltrados"
+          :adicionarAoCarrinho="props.adicionarAoCarrinho"
+          :favoritos="props.favoritos"
+          @toggle-favorito="emit('toggle-favorito', $event)"
+        />
       </main>
     </div>
   </div>
