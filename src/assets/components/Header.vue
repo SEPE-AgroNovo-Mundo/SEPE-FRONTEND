@@ -52,13 +52,15 @@ onBeforeUnmount(() => {
         <a @click.prevent="$router.push('/racoes'); fecharMenu()">Rações</a>
         <a @click.prevent="$router.push('/pragas'); fecharMenu()">Pragas</a>
         <a @click.prevent="$router.push('/pets'); fecharMenu()">Pets</a>
-        <a v-if="telaPequena" @click.prevent="$router.push('/favoritos'); fecharMenu()">❤️ Favoritos</a>
+        <a v-if="telaPequena" @click.prevent="$router.push('/favoritos'); fecharMenu()">
+          <img src="@/assets/imagens/favorito.png" alt="Favoritos" style="width: 22px; vertical-align: middle; margin-right: 6px;" /> Favoritos
+        </a>
       </nav>
       <div class="header-icons">
         <input type="text" class="busca" placeholder="O que você precisa hoje?" :value="props.modelValue"
           @input="emit('update:modelValue', $event.target.value)" />
-        <span v-if="!telaPequena" class="icon heart" @click="$router.push('/favoritos')">❤️</span>
-        <span class="icon cart" @click="props.onAbrirCarrinho && props.onAbrirCarrinho()">🛒</span>
+        <img v-if="!telaPequena" src="@/assets/imagens/favorito.png" alt="Favoritos" class="icon heart" style="width: 28px; cursor: pointer;" @click="$router.push('/favoritos')" />
+        <img src="@/assets/imagens/comprar.png" alt="Carrinho" class="icon cart" style="width: 28px; cursor: pointer;" @click="props.onAbrirCarrinho && props.onAbrirCarrinho()" />
         <img v-if="usuario.imagem" :src="usuario.imagem" class="perfil-header" @click="$router.push('/perfil')"
           alt="Perfil" />
         <span v-else class="icon user" @click="$router.push('/perfil')">👤</span>
@@ -99,7 +101,7 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-left: 18px;
+  margin-left: 80px;
 }
 
 .logo {
@@ -231,7 +233,6 @@ onBeforeUnmount(() => {
   }
 
   .header-icons {
-    gap: 6px;
     margin-left: 0;
   }
 
