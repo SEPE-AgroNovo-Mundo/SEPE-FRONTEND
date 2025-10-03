@@ -89,6 +89,12 @@ const filtrosAtuais = ref({
 })
 
 const termoBusca = ref('')
+const filtroVisivel = ref(true)
+const filtroAberto = ref(true)
+
+function alternarFiltro() {
+  filtroAberto.value = !filtroAberto.value
+}
 
 watch(termoBuscaGlobal, () => {
   filtrarProdutos(filtrosAtuais.value)
@@ -131,12 +137,19 @@ function filtrarProdutos(filtros) {
 <template>
   <div class="dedetizacao-view">
     <Header v-model="termoBusca" :onAbrirCarrinho="props.abrirCarrinho" />
-    <div class="conteudo">
-      <aside class="filtro-lateral">
-        <DedetizacaoFiltro :produtos="produtos" @filtrar="filtrarProdutos" />
+    <div class="conteudo" :class="{ expandido: !filtroVisivel }">
+      <aside class="filtro-lateral" v-if="filtroVisivel">
+        <button class="btn-toggle-filtro" @click="alternarFiltro">
+          {{ filtroAberto ? 'Recolher Filtros ▲' : 'Exibir Filtros ▼' }}
+        </button>
+        <transition name="fade">
+          <div v-show="filtroAberto">
+            <DedetizacaoFiltro :produtos="produtos" @filtrar="filtrarProdutos" />
+          </div>
+        </transition>
       </aside>
-      <main class="produtos-area">
-        <ProdutosList :produtos="produtosFiltrados" :adicionar-ao-carrinho="props.adicionarAoCarrinho" />
+      <main class="produtos-area" :class="{ expandido: !filtroVisivel }">
+        <ProdutosList :produtos="produtosFiltrados" :adicionar-ao-carrinho="props.adicionarAoCarrinho" :expandido="!filtroVisivel" />
       </main>
     </div>
   </div>
@@ -156,8 +169,15 @@ function filtrarProdutos(filtros) {
   padding: 0 32px;
 }
 
+.conteudo.expandido {
+  max-width: 100vw;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+}
+
 .filtro-lateral {
-  flex: 0 0 340px;
   position: sticky;
   top: 88px;
   height: fit-content;
@@ -168,6 +188,90 @@ function filtrarProdutos(filtros) {
   display: flex;
   flex-direction: column;
   min-width: 0;
+}
+
+.produtos-area.expandido {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  flex: 1 1 100%;
+  box-sizing: border-box;
+}
+
+.btn-toggle-filtro {
+  display: none;
+  margin-bottom: 10px;
+  padding: 8px 16px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .btn-toggle-filtro {
+    display: block;
+  }
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s;
+}
+
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+
+@media (max-width: 1400px) {
+  .conteudo.expandido,
+  .produtos-area.expandido {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box;
+  }
+}
+@media (max-width: 900px) {
+  .conteudo.expandido,
+  .produtos-area.expandido {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box;
+  }
+}
+@media (max-width: 600px) {
+  .conteudo.expandido,
+  .produtos-area.expandido {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box;
+  }
+}
+
+.toggle-filtro-btn {
+  margin: 24px auto 0 auto;
+  display: block;
+  background: #f4511e;
+  color: #fff;
+  border: none;
+  border-radius: 18px;
+  padding: 10px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #f4511e22;
+  transition: background 0.2s;
+}
+.toggle-filtro-btn:hover {
+  background: #d84315;
 }
 
 @media (max-width: 900px) {
@@ -181,6 +285,44 @@ function filtrarProdutos(filtros) {
     position: static;
     width: 100%;
     margin-bottom: 16px;
+  }
+
+  .produtos-area.expandido {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .container, .main-content, .view-content {
+    padding: 0 2vw;
+    width: 100vw;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+}
+@media (max-width: 600px) {
+  .container, .main-content, .view-content {
+    padding: 0 1vw;
+    width: 100vw;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  h1, h2, h3, h4 {
+    font-size: 1.1em;
+  }
+}
+@media (max-width: 440px) {
+  .container, .main-content, .view-content {
+    padding: 0 0.5vw;
+    width: 100vw;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  h1, h2, h3, h4 {
+    font-size: 1em;
   }
 }
 </style>

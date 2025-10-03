@@ -87,6 +87,11 @@ const filtrosAtuais = ref({
   ordenacao: ''
 })
 
+const filtroAberto = ref(true)
+function alternarFiltro() {
+  filtroAberto.value = !filtroAberto.value
+}
+
 watch(termoBuscaGlobal, () => {
   filtrarProdutos(filtrosAtuais.value)
 })
@@ -160,7 +165,14 @@ watch(termoBusca, () => {
     <Header v-model="termoBusca" :onAbrirCarrinho="props.abrirCarrinho" />
     <div class="conteudo">
       <aside class="filtro-lateral">
-        <HormoniosFiltro :produtos="produtos" @filtrar="filtrarProdutos" />
+        <button class="btn-toggle-filtro" @click="alternarFiltro">
+          {{ filtroAberto ? 'Recolher Filtros ▲' : 'Exibir Filtros ▼' }}
+        </button>
+        <transition name="fade">
+          <div v-show="filtroAberto">
+            <HormoniosFiltro :produtos="produtos" @filtrar="filtrarProdutos" />
+          </div>
+        </transition>
       </aside>
       <main class="produtos-area">
         <ProdutosList :produtos="produtosFiltrados" :adicionar-ao-carrinho="props.adicionarAoCarrinho" />
@@ -184,7 +196,6 @@ watch(termoBusca, () => {
 }
 
 .filtro-lateral {
-  flex: 0 0 340px;
   position: sticky;
   top: 88px;
   height: fit-content;
@@ -195,6 +206,18 @@ watch(termoBusca, () => {
   display: flex;
   flex-direction: column;
   min-width: 0;
+}
+
+.btn-toggle-filtro {
+  display: none;
+  margin-bottom: 10px;
+  padding: 8px 16px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
 }
 
 @media (max-width: 900px) {
@@ -209,5 +232,47 @@ watch(termoBusca, () => {
     width: 100%;
     margin-bottom: 16px;
   }
+
+  .btn-toggle-filtro {
+    display: block;
+  }
+}
+
+@media (max-width: 900px) {
+  .container, .main-content, .view-content {
+    padding: 0 2vw;
+    width: 100vw;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+}
+@media (max-width: 600px) {
+  .container, .main-content, .view-content {
+    padding: 0 1vw;
+    width: 100vw;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  h1, h2, h3, h4 {
+    font-size: 1.1em;
+  }
+}
+@media (max-width: 440px) {
+  .container, .main-content, .view-content {
+    padding: 0 0.5vw;
+    width: 100vw;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  h1, h2, h3, h4 {
+    font-size: 1em;
+  }
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
 }
 </style>

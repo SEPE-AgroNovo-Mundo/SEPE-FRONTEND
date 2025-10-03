@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
-const props = defineProps({ produtos: Array, adicionarAoCarrinho: Function })
+const props = defineProps({ produtos: Array, adicionarAoCarrinho: Function, expandido: Boolean })
 
 const produtoSelecionado = ref(null)
 const modalAberto = ref(false)
@@ -35,7 +35,7 @@ function comprarAgora() {
 </script>
 
 <template>
-  <div class="produtos-list">
+  <div class="produtos-list" :class="{ expandido: props.expandido }">
     <div v-for="produto in props.produtos" :key="produto.id" class="produto-card">
       <img :src="produto.imagem" :alt="produto.nome" class="produto-img" />
       <div class="produto-info">
@@ -84,10 +84,38 @@ function comprarAgora() {
 <style scoped>
 .produtos-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 32px;
   width: 100%;
   padding: 6px;
+}
+
+.produtos-list.expandido {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+  .produtos-list.expandido {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box;
+  }
+}
+@media (max-width: 600px) {
+  .produtos-list.expandido {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box;
+  }
 }
 
 .produto-card {
@@ -349,6 +377,142 @@ function comprarAgora() {
     width: 98vw;
     height: 220px;
     max-width: 98vw;
+  }
+}
+
+.produtos-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: flex-start;
+  align-items: stretch;
+  width: 100%;
+}
+.produto-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px #0001;
+  padding: 18px 12px 16px 12px;
+  width: 260px;
+  min-width: 220px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.produto-card:hover {
+  box-shadow: 0 6px 24px #f4511e33;
+  transform: translateY(-2px) scale(1.01);
+}
+.produto-img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+.produto-nome {
+  font-size: 1.08rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  text-align: center;
+}
+.produto-preco {
+  color: #f4511e;
+  font-size: 1.12rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.produto-btn {
+  background: #f4511e;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.2s;
+}
+.produto-btn:hover {
+  background: #d84315;
+}
+@media (max-width: 900px) {
+  .produtos-lista {
+    gap: 18px;
+    justify-content: center;
+  }
+  .produto-card {
+    width: 44vw;
+    min-width: 160px;
+    max-width: 99vw;
+    padding: 12px 6px 12px 6px;
+  }
+  .produto-img {
+    width: 80px;
+    height: 80px;
+  }
+}
+@media (max-width: 600px) {
+  .produtos-lista {
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+  }
+  .produto-card {
+    width: 98vw;
+    min-width: 0;
+    max-width: 99vw;
+    padding: 10px 2vw 10px 2vw;
+  }
+  .produto-img {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+.produtos-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  justify-content: flex-start;
+}
+@media (max-width: 900px) {
+  .produtos-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    justify-content: center;
+  }
+}
+@media (max-width: 600px) {
+  .produtos-list {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 900px) {
+  .produtos-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+@media (max-width: 600px) {
+  .produtos-list {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 900px) {
+  .produtos-list.expandido {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 }
 </style>

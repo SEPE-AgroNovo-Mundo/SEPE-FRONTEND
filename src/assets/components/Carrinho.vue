@@ -10,6 +10,12 @@ const selecionados = ref(props.produtos.map(p => p.id))
 const step = ref(1)
 const endereco = ref({ nome: '', rua: '', numero: '', bairro: '', cidade: '', estado: '', cep: '' })
 const tipoCompra = ref('')
+const tipoPagamento = ref('')
+const tipoCartao = ref('')
+const precisaTroco = ref(false)
+const valorTroco = ref('')
+
+const showConfirmAlert = ref(false)
 
 watch(() => props.produtos, (novos) => {
   selecionados.value = selecionados.value.filter(id => novos.some(p => p.id === id))
@@ -43,11 +49,32 @@ function continuarCompra() {
     }
     step.value = 4
   } else if (step.value === 4) {
-    alert('Compra confirmada!')
-    emit('fechar')
-    step.value = 1
-    tipoCompra.value = ''
-    endereco.value = { nome: '', rua: '', numero: '', bairro: '', cidade: '', estado: '', cep: '' }
+    if (!tipoPagamento.value) {
+      alert('Selecione o tipo de pagamento!')
+      return
+    }
+    if (tipoPagamento.value === 'cartao' && !tipoCartao.value) {
+      alert('Selecione débito ou crédito!')
+      return
+    }
+    if (tipoPagamento.value === 'dinheiro' && precisaTroco.value && (!valorTroco.value || isNaN(Number(valorTroco.value)) || Number(valorTroco.value) <= total.value)) {
+      alert('Informe um valor válido para o troco!')
+      return
+    }
+    step.value = 5
+  } else if (step.value === 5) {
+    showConfirmAlert.value = true
+    setTimeout(() => {
+      showConfirmAlert.value = false
+      emit('fechar')
+      step.value = 1
+      tipoCompra.value = ''
+      endereco.value = { nome: '', rua: '', numero: '', bairro: '', cidade: '', estado: '', cep: '' }
+      tipoPagamento.value = ''
+      tipoCartao.value = ''
+      precisaTroco.value = false
+      valorTroco.value = ''
+    }, 2200)
   }
 }
 
@@ -62,6 +89,12 @@ function voltarEtapa() {
   <div class="carrinho-modal">
     <div class="carrinho-box">
       <button class="carrinho-fechar" @click="emit('fechar')">&times;</button>
+      <div v-if="showConfirmAlert" class="alert-confirmacao">
+        <div class="alert-content">
+          <span class="alert-icon">🎉</span>
+          <div class="alert-msg">Seu pedido foi realizado com sucesso!</div>
+        </div>
+      </div>
       <div v-if="step === 1">
         <div class="carrinho-flex">
           <div class="carrinho-lista">
@@ -130,24 +163,67 @@ function voltarEtapa() {
         </div>
       </div>
       <div v-else-if="step === 4" class="carrinho-etapa">
+        <h3>Pagamento</h3>
+        <div class="tipo-compra-opcoes">
+          <label class="tipo-compra-opcao" :class="{ selected: tipoPagamento === 'dinheiro' }">
+            <input type="radio" v-model="tipoPagamento" value="dinheiro" /> Dinheiro
+          </label>
+          <label class="tipo-compra-opcao" :class="{ selected: tipoPagamento === 'pix' }">
+            <input type="radio" v-model="tipoPagamento" value="pix" /> Pix
+          </label>
+          <label class="tipo-compra-opcao" :class="{ selected: tipoPagamento === 'cartao' }">
+            <input type="radio" v-model="tipoPagamento" value="cartao" /> Cartão
+          </label>
+        </div>
+        <div v-if="tipoPagamento === 'cartao'" style="margin-bottom:18px; text-align:center;">
+          <label style="margin-right:18px;">
+            <input type="radio" v-model="tipoCartao" value="debito" /> Débito
+          </label>
+          <label>
+            <input type="radio" v-model="tipoCartao" value="credito" /> Crédito
+          </label>
+        </div>
+        <div v-if="tipoPagamento === 'dinheiro'" style="margin-bottom:18px; text-align:center;">
+          <label>
+            <input type="checkbox" v-model="precisaTroco" /> Precisa de troco?
+          </label>
+          <div v-if="precisaTroco" style="margin-top:10px;">
+            <input v-model="valorTroco" type="number" min="0" :placeholder="'Valor que será pago em dinheiro'" style="padding:8px 12px; border-radius:6px; border:1px solid #ddd; width:180px;" />
+            <span style="font-size:0.98rem; color:#888; margin-left:6px;">Total da compra: R$ {{ total.toFixed(2) }}</span>
+          </div>
+        </div>
+        <div class="botoes-centro">
+          <button type="button" @click="voltarEtapa">Voltar</button>
+          <button type="button" @click="continuarCompra">Próximo</button>
+        </div>
+      </div>
+      <div v-else-if="step === 5" class="carrinho-etapa">
         <h3>Confirmação da compra</h3>
-        <div style="margin-bottom:12px;">
-          <b>Endereço:</b><br />
-          {{ endereco.nome }}, {{ endereco.rua }}, {{ endereco.numero }}, {{ endereco.bairro }}, {{ endereco.cidade }}-{{ endereco.estado }}, CEP: {{ endereco.cep }}
-        </div>
-        <div style="margin-bottom:12px;">
-          <b>Tipo de compra:</b> {{ tipoCompra === 'retirar' ? 'Retirar na loja' : 'Receber em casa' }}
-        </div>
-        <div style="margin-bottom:12px;">
-          <b>Produtos:</b>
-          <ul>
-            <li v-for="produto in props.produtos.filter(p => selecionados.includes(p.id))" :key="produto.id">
-              {{ produto.nome }} ({{ produto.quantidade }}x)
-            </li>
-          </ul>
-        </div>
-        <div style="margin-bottom:18px;">
-          <b>Total:</b> R$ {{ total.toFixed(2) }}
+        <div class="confirmacao-compra">
+          <div>
+            <b>Endereço:</b><br />
+            {{ endereco.nome }}, {{ endereco.rua }}, {{ endereco.numero }}, {{ endereco.bairro }}, {{ endereco.cidade }}-{{ endereco.estado }}, CEP: {{ endereco.cep }}
+          </div>
+          <div>
+            <b>Tipo de retirada:</b> {{ tipoCompra === 'retirar' ? 'Retirar na loja' : 'Receber em casa' }}
+          </div>
+          <div>
+            <b>Pagamento:</b>
+            <span v-if="tipoPagamento === 'dinheiro'">Dinheiro <span v-if="precisaTroco">(Troco para R$ {{ valorTroco }})</span></span>
+            <span v-else-if="tipoPagamento === 'pix'">Pix</span>
+            <span v-else-if="tipoPagamento === 'cartao'">Cartão ({{ tipoCartao === 'debito' ? 'Débito' : 'Crédito' }})</span>
+          </div>
+          <div>
+            <b>Produtos:</b>
+            <ul>
+              <li v-for="produto in props.produtos.filter(p => selecionados.includes(p.id))" :key="produto.id">
+                {{ produto.nome }} ({{ produto.quantidade }}x)
+              </li>
+            </ul>
+          </div>
+          <div>
+            <b>Total:</b> R$ {{ total.toFixed(2) }}
+          </div>
         </div>
         <div class="botoes-centro">
           <button type="button" @click="voltarEtapa">Voltar</button>
@@ -455,6 +531,169 @@ function voltarEtapa() {
   justify-content: center;
   gap: 12px;
   margin-top: 16px;
+}
+
+.carrinho-etapa .confirmacao-compra {
+  background: #f7f8fa;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px #0001;
+  padding: 24px 28px;
+  max-width: 440px;
+  margin: 0 auto 18px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  font-size: 1.08rem;
+  color: #333;
+}
+.carrinho-etapa .confirmacao-compra ul {
+  margin: 0 0 0 18px;
+  padding: 0;
+}
+.carrinho-etapa .confirmacao-compra li {
+  margin-bottom: 4px;
+}
+.carrinho-etapa .confirmacao-compra b {
+  color: #f4511e;
+}
+
+.alert-confirmacao {
+  position: fixed;
+  top: 32px;
+  right: 32px;
+  left: auto;
+  bottom: auto;
+  transform: none;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px #0003;
+  padding: 28px 38px 22px 38px;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeInRight 0.3s;
+}
+@keyframes fadeInRight {
+  from { opacity: 0; right: 0; }
+  to { opacity: 1; right: 32px; }
+}
+.alert-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.alert-icon {
+  font-size: 2.8rem;
+  color: #43a047;
+}
+.alert-msg {
+  font-size: 1.25rem;
+  color: #222;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+@media (max-width: 900px) {
+  .carrinho-box {
+    min-width: 0;
+    max-width: 99vw;
+    width: 99vw;
+    padding: 0;
+  }
+  .carrinho-flex {
+    flex-direction: column;
+    gap: 18px;
+    padding: 12px 2vw 12px 2vw;
+  }
+  .carrinho-lista {
+    width: 100%;
+    min-width: 0;
+  }
+  .carrinho-resumo {
+    min-width: 0;
+    max-width: 99vw;
+    width: 100%;
+    margin: 18px auto 0 auto;
+    align-items: stretch;
+  }
+  .carrinho-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 8px;
+  }
+  .carrinho-img {
+    width: 60px;
+    height: 60px;
+  }
+  .carrinho-preco-area {
+    align-items: flex-start;
+    margin-left: 0;
+    min-width: 0;
+  }
+  .carrinho-etapa form,
+  .carrinho-etapa .confirmacao-compra {
+    max-width: 99vw;
+    padding: 14px 4vw;
+  }
+  .tipo-compra-opcoes {
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    align-items: center;
+  }
+  .tipo-compra-opcao {
+    width: 90vw;
+    max-width: 320px;
+    min-width: 0;
+    padding: 12px 8px;
+    font-size: 1rem;
+  }
+  .alert-confirmacao {
+    right: 8px;
+    top: 8px;
+    padding: 18px 12px 14px 12px;
+    font-size: 1rem;
+  }
+}
+@media (max-width: 600px) {
+  .carrinho-box {
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+  }
+  .carrinho-modal {
+    padding-top: 0;
+  }
+  .carrinho-resumo {
+    padding: 12px 4vw;
+  }
+  .carrinho-etapa form,
+  .carrinho-etapa .confirmacao-compra {
+    padding: 8px 2vw;
+  }
+  .alert-confirmacao {
+    right: 0;
+    top: 0;
+    border-radius: 0 0 12px 12px;
+    width: 100vw;
+    max-width: 100vw;
+    justify-content: flex-start;
+  }
+}
+
+.carrinho {
+  width: 400px;
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+@media (max-width: 600px) {
+  .carrinho {
+    width: 100vw;
+    padding: 0 1vw;
+  }
 }
 
 @media (max-width: 900px) {

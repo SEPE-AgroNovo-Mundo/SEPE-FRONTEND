@@ -159,6 +159,10 @@ watch([
   gap: 24px;
   width: 100%;
   overflow-x: hidden;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 18px 12px;
+  box-sizing: border-box;
 }
 
 .filtro-scroll {
@@ -241,13 +245,56 @@ select {
 @media (max-width: 900px) {
   .filtro-container {
     width: 100%;
+    padding: 12px 4vw;
+    border-radius: 10px;
+    max-width: 99vw;
+    padding: 12px 2vw;
   }
-
   .filtro-scroll {
     max-height: none;
     overflow-y: visible;
     width: 100%;
     overflow-x: hidden;
+  }
+  .filtro-bloco {
+    padding: 10px 6px;
+    border-radius: 8px;
+  }
+  .filtro-busca,
+  select {
+    font-size: 0.98rem;
+    padding: 6px 8px;
+    border-radius: 6px;
+  }
+  .filtro-lista label {
+    font-size: 0.98rem;
+    padding: 5px 6px;
+    border-radius: 5px;
+  }
+}
+@media (max-width: 600px) {
+  .filtro-container {
+    padding: 6px 2vw;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 6px 1vw;
+    max-width: 99vw;
+  }
+  .filtro-bloco {
+    padding: 6px 2px;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .filtro-busca,
+  select {
+    font-size: 0.95rem;
+    padding: 5px 4px;
+    border-radius: 4px;
+  }
+  .filtro-lista label {
+    font-size: 0.95rem;
+    padding: 4px 2px;
+    border-radius: 3px;
   }
 }
 </style>

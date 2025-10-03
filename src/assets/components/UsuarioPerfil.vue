@@ -526,6 +526,81 @@ function excluirUsuario(id) {
   background: #f3f6fa;
 }
 
+.perfil-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 32px 18px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+  .perfil-container {
+    padding: 18px 4vw;
+    max-width: 99vw;
+  }
+}
+
+@media (max-width: 600px) {
+  .perfil-container {
+    padding: 8px 2vw;
+    max-width: 99vw;
+  }
+}
+
+@media (max-width: 900px) {
+  .usuario-perfil-card {
+    padding: 24px 4vw 20px 4vw;
+    min-width: unset;
+    max-width: 98vw;
+  }
+  .usuario-perfil-externo {
+    margin: 48px 0 24px 0;
+    max-width: 99vw;
+  }
+  .perfil-foto-area {
+    gap: 10px;
+  }
+}
+@media (max-width: 600px) {
+  .usuario-perfil-card {
+    padding: 12px 2vw 12px 2vw;
+    min-width: unset;
+    max-width: 99vw;
+  }
+  .usuario-perfil-externo {
+    margin: 32px 0 16px 0;
+    max-width: 100vw;
+  }
+  .perfil-foto-area {
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+  .foto-usuario {
+    width: 70px;
+    height: 70px;
+  }
+  .form-cadastro, .form-edicao {
+    gap: 10px;
+  }
+  .modal-content {
+    padding: 14px 2vw;
+    min-width: unset;
+    max-width: 98vw;
+  }
+}
+@media (max-width: 400px) {
+  .usuario-perfil-card {
+    padding: 6px 1vw 6px 1vw;
+    max-width: 100vw;
+  }
+  .modal-content {
+    padding: 8px 1vw;
+    max-width: 100vw;
+  }
+}
+
 @media (max-width: 600px) {
   .usuario-perfil-card {
     padding: 18px 6vw 18px 6vw;
