@@ -84,7 +84,6 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: space-between;
   padding: 0 40px;
-  height: 80px;
   box-sizing: border-box;
   position: sticky;
   top: 0;
@@ -94,7 +93,7 @@ onBeforeUnmount(() => {
 .header-left {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 40px;
 }
 
 .header-icons {
