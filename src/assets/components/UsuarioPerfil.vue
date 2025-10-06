@@ -141,6 +141,25 @@ function excluirUsuario(id) {
     showSelecionarUsuario.value = false
   }
 }
+
+function onGoogleSuccess(response) {
+  // Preenche automaticamente os campos com dados do Google
+  if (response && response.profileObj) {
+    cadastro.value.nome = response.profileObj.name || ''
+    cadastro.value.email = response.profileObj.email || ''
+    cadastro.value.imagem = response.profileObj.imageUrl || ''
+  } else if (response && response.credential) {
+    // Para Google Identity Services (token JWT)
+    const payload = JSON.parse(atob(response.credential.split('.')[1]))
+    cadastro.value.nome = payload.name || ''
+    cadastro.value.email = payload.email || ''
+    cadastro.value.imagem = payload.picture || ''
+  }
+}
+
+function onGoogleError(error) {
+  console.error('Google login error:', error)
+}
 </script>
 
 <template>
@@ -174,6 +193,12 @@ function excluirUsuario(id) {
           Foto (opcional):
           <input type="file" accept="image/*" @change="handleImagem" />
         </label>
+        <div style="display: flex; justify-content: center; margin: 16px 0;">
+          <GoogleLogin
+            :onSuccess="onGoogleSuccess"
+            :onError="onGoogleError"
+          />
+        </div>
         <button type="submit">Cadastrar</button>
       </form>
       <div v-if="!cadastrando" class="botoes-usuario">
