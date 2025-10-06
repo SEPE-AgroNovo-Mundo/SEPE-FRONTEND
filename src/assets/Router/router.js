@@ -14,6 +14,7 @@ import PetsView from '../../views/PetsView.vue';
 import Header from '../components/Header.vue';
 import UsuarioPerfil from '../components/UsuarioPerfil.vue';
 import FavoritosView from '../../views/FavoritosView.vue';
+import Footer from '../components/Footer.vue';
 
 const routes = [
 
@@ -21,6 +22,11 @@ const routes = [
     path: '/medicamentos',
     component: MedicamentosView,
     name: 'MedicamentosView'
+  },
+  {
+    path: '/footer',
+    component: Footer,
+    name: 'Footer'
   },
   {
     path: '/perfil',

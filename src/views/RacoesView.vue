@@ -2,6 +2,7 @@
 import Header from '@/assets/components/Header.vue'
 import RacoesFiltro from '@/assets/components/RacoesFiltro.vue'
 import ProdutosList from '@/assets/components/ProdutosList.vue'
+import Footer from '@/assets/components/Footer.vue'
 import { ref, inject, watch, defineProps, defineEmits } from 'vue'
 
 const props = defineProps({ adicionarAoCarrinho: Function, abrirCarrinho: Function, favoritos: Array })
@@ -139,6 +140,7 @@ function filtrarProdutos(filtros) {
         />
       </main>
     </div>
+    <Footer />
   </div>
 </template>
 

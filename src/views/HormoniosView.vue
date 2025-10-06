@@ -2,6 +2,7 @@
 import Header from '@/assets/components/Header.vue'
 import HormoniosFiltro from '@/assets/components/HormoniosFiltro.vue'
 import ProdutosList from '@/assets/components/ProdutosList.vue'
+import Footer from '@/assets/components/Footer.vue'
 import { ref, inject, watch, defineProps, defineEmits } from 'vue'
 
 const props = defineProps({ adicionarAoCarrinho: Function, abrirCarrinho: Function, favoritos: Array })
@@ -179,6 +180,7 @@ watch(termoBusca, () => {
         <ProdutosList :produtos="produtosFiltrados" :adicionarAoCarrinho="props.adicionarAoCarrinho" :favoritos="props.favoritos" @toggle-favorito="emit('toggle-favorito', $event)" />
       </main>
     </div>
+    <Footer />
   </div>
 </template>
 
