@@ -2,7 +2,6 @@
 import { useRouter } from 'vue-router';
 import { ref, provide, reactive } from 'vue';
 import Carrinho from '@/assets/components/Carrinho.vue';
-import ProdutosList from '@/assets/components/ProdutosList.vue';
 
 const router = useRouter();
 const termoBuscaGlobal = ref('');
@@ -77,19 +76,12 @@ function toggleFavorito(produto) {
   salvarFavoritos()
 }
 
-const exibirFavoritos = ref(false)
-function abrirFavoritos() {
-  exibirFavoritos.value = true
-}
-function fecharFavoritos() {
-  exibirFavoritos.value = false
-}
 </script>
 
 <template>
   <div>
     <header>
-      <button class="btn-favoritos" @click="abrirFavoritos">❤️ Favoritos ({{ favoritos.length }})</button>
+      <!-- Removido o botão de favoritos -->
     </header>
     <router-view v-slot="{ Component }">
       <component :is="Component"
@@ -101,13 +93,7 @@ function fecharFavoritos() {
     </router-view>
     <Carrinho v-if="carrinhoAberto" :produtos="carrinho" @fechar="fecharCarrinho" @alterarQtd="alterarQtd"
       @remover="removerDoCarrinho" />
-    <div v-if="exibirFavoritos" class="favoritos-modal">
-      <div class="favoritos-content">
-        <h2>Favoritos</h2>
-        <button class="fechar" @click="fecharFavoritos">Fechar</button>
-        <ProdutosList :produtos="favoritos" :favoritos="favoritos" @toggle-favorito="toggleFavorito" />
-      </div>
-    </div>
+    <!-- Removido o modal de favoritos -->
     <div v-if="$route.path === '/'" class="background">
       <div class="overlay">
         <div class="container">

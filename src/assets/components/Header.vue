@@ -39,6 +39,14 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener('resize', checarTela)
 })
+
+const exibirFavoritos = ref(false)
+const favoritos = ref([])
+
+
+function fecharFavoritos() {
+  exibirFavoritos.value = false
+}
 </script>
 
 <template>
@@ -72,6 +80,15 @@ onBeforeUnmount(() => {
       </div>
     </div>
     <div v-if="menuAberto" class="menu-overlay" @click="fecharMenu"></div>
+    <div v-if="exibirFavoritos" class="favoritos-modal">
+      <div class="favoritos-content">
+        <h2>Favoritos</h2>
+        <ul>
+          <li v-for="favorito in favoritos" :key="favorito.id">{{ favorito.nome }}</li>
+        </ul>
+        <button @click="fecharFavoritos">Fechar</button>
+      </div>
+    </div>
   </header>
 </template>
 
@@ -216,6 +233,71 @@ onBeforeUnmount(() => {
   height: 100vh;
   background: rgba(0,0,0,0.18);
   z-index: 110;
+}
+
+.favoritos-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 120;
+}
+
+.favoritos-content {
+  background: #fff;
+  padding: 32px 24px 24px 24px;
+  border-radius: 14px;
+  box-shadow: 0 4px 32px #0003;
+  min-width: 320px;
+  max-width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  text-align: center;
+}
+
+.favoritos-content h2 {
+  margin-top: 0;
+  color: #f4511e;
+  font-size: 1.5rem;
+  margin-bottom: 18px;
+}
+
+.favoritos-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 18px 0;
+}
+
+.favoritos-content li {
+  padding: 10px 0;
+  border-bottom: 1px solid #f3f3f3;
+  font-size: 1.08rem;
+}
+
+.favoritos-content li:last-child {
+  border-bottom: none;
+}
+
+.favoritos-content button {
+  background: #f4511e;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 24px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.2s;
+}
+
+.favoritos-content button:hover {
+  background: #d84315;
 }
 
 @media (max-width: 900px) {

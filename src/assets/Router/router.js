@@ -13,13 +13,10 @@ import PetsFiltro from '../components/PetsFiltro.vue';
 import PetsView from '../../views/PetsView.vue';
 import Header from '../components/Header.vue';
 import UsuarioPerfil from '../components/UsuarioPerfil.vue';
+import FavoritosView from '../../views/FavoritosView.vue';
 
 const routes = [
-  {
-    path: '/',
-    component: MedicamentosView, // ou outro componente principal desejado
-    name: 'Home'
-  },
+
   {
     path: '/medicamentos',
     component: MedicamentosView,
@@ -90,6 +87,11 @@ const routes = [
     path: '/pets-filtro',
     component: PetsFiltro,
     name: 'PetsFiltro'
+  },
+  {
+    path: '/favoritos',
+    component: FavoritosView,
+    name: 'FavoritosView'
   },
 ]
 
