@@ -1,34 +1,6 @@
-<template>
-  <button class="seta-voltar" @click="$router.push('/medicamentos')" aria-label="Voltar para o menu">
-    <img src="@/assets/imagens/seta-preta.png" alt="Voltar" />
-  </button>
-  <div class="favoritos-view">
-    <h1>Meus Favoritos</h1>
-    <div v-if="favoritos.length === 0" class="vazio">Nenhum produto favoritado ainda.</div>
-    <div v-else class="produtos-list">
-      <div v-for="produto in favoritos" :key="produto.id" class="produto-card">
-        <button class="btn-favorito" @click="removerFavorito(produto)" aria-label="Remover dos favoritos">
-          <img src="@/assets/imagens/favorito-cheio.png" alt="Remover dos favoritos" />
-        </button>
-        <img :src="produto.imagem" :alt="produto.nome" class="produto-img" />
-        <div class="produto-info">
-          <h2>{{ produto.nome }}</h2>
-          <p v-if="produto.marca"><b>Marca:</b> {{ produto.marca }}</p>
-          <p v-if="produto.preco"><b>Preço:</b> R$ {{ produto.preco.toFixed(2) }}</p>
-          <button class="btn-comprar" @click="comprar(produto)">Comprar</button>
-        </div>
-      </div>
-    </div>
-    <transition name="fade">
-      <div v-if="showAlert" :class="['alerta-top', alertType]">
-        {{ alertMsg }}
-      </div>
-    </transition>
-  </div>
-</template>
-
 <script setup>
 import { ref, onMounted, defineProps } from 'vue'
+import ProdutosList from '@/assets/components/ProdutosList.vue'
 const props = defineProps({ adicionarAoCarrinho: Function })
 const favoritos = ref([])
 
@@ -55,14 +27,29 @@ function removerFavorito(produto) {
   localStorage.setItem('favoritos', JSON.stringify(favoritos.value))
   exibirAlerta('Item removido dos favoritos!', 'info')
 }
-
-function comprar(produto) {
-  if (props.adicionarAoCarrinho) {
-    props.adicionarAoCarrinho(produto, 1)
-    exibirAlerta('Item adicionado ao carrinho!')
-  }
-}
 </script>
+
+<template>
+  <button class="seta-voltar" @click="$router.push('/medicamentos')" aria-label="Voltar para o menu">
+    <img src="@/assets/imagens/seta-preta.png" alt="Voltar" />
+  </button>
+  <div class="favoritos-view">
+    <h1>Meus Favoritos</h1>
+    <div v-if="favoritos.length === 0" class="vazio">Nenhum produto favoritado ainda.</div>
+    <ProdutosList
+      v-else
+      :produtos="favoritos"
+      :adicionarAoCarrinho="props.adicionarAoCarrinho"
+      :favoritos="favoritos"
+      @toggle-favorito="removerFavorito"
+    />
+    <transition name="fade">
+      <div v-if="showAlert" :class="['alerta-top', alertType]">
+        {{ alertMsg }}
+      </div>
+    </transition>
+  </div>
+</template>
 
 <style scoped>
 .favoritos-view {

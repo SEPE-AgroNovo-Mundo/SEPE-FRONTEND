@@ -8,6 +8,8 @@ const props = defineProps({ produtos: Array, adicionarAoCarrinho: Function, expa
 const produtoSelecionado = ref(null)
 const modalAberto = ref(false)
 const quantidade = ref(1)
+const showAlert = ref(false)
+const alertMsg = ref('')
 
 const valorTotal = computed(() => {
   if (!produtoSelecionado.value) return 0
@@ -33,6 +35,9 @@ function comprarAgora() {
   if (props.adicionarAoCarrinho && produtoSelecionado.value) {
     props.adicionarAoCarrinho(produtoSelecionado.value, quantidade.value)
     fecharModal()
+    alertMsg.value = 'Produto adicionado ao carrinho!'
+    showAlert.value = true
+    setTimeout(() => { showAlert.value = false }, 2200)
   }
 }
 
@@ -91,6 +96,12 @@ function isFavoritado(p) {
       </div>
     </div>
   </div>
+
+  <transition name="fade">
+    <div v-if="showAlert" class="alerta-top alerta-carrinho">
+      {{ alertMsg }}
+    </div>
+  </transition>
 </template>
 
 <style scoped>
@@ -547,5 +558,29 @@ function isFavoritado(p) {
 }
 .favorito-icone img.favoritado {
   filter: invert(18%) sepia(99%) saturate(7482%) hue-rotate(357deg) brightness(97%) contrast(119%);
+}
+
+.alerta-top.alerta-carrinho {
+  position: fixed;
+  top: 32px;
+  right: 32px;
+  background: #fff;
+  color: #388e3c;
+  border: 2px solid #b6e2c1;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px #0003;
+  padding: 18px 38px 16px 38px;
+  font-size: 1.12rem;
+  font-weight: 700;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  animation: fadeInRight 0.3s;
+  min-width: 220px;
+  justify-content: center;
+}
+@keyframes fadeInRight {
+  from { opacity: 0; right: 0; }
+  to { opacity: 1; right: 32px; }
 }
 </style>
