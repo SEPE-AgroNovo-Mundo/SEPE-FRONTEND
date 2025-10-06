@@ -4,7 +4,7 @@
       <img src="@/assets/imagens/logo.png" alt="Logo" class="footer-logo" />
       <div class="footer-info">
         <div>© {{ new Date().getFullYear() }} SEPE. Todos os direitos reservados.</div>
-        <div>Desenvolvido por SEPE - Semana de Ensino Pesquisa e Extensão</div>
+        <div>Desenvolvido por Higor(3INFO1) - Semana de Ensino Pesquisa e Extensão</div>
       </div>
     </div>
   </footer>
