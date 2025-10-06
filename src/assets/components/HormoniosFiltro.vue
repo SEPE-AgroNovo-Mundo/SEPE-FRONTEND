@@ -180,6 +180,11 @@ watch([
   flex-direction: column;
   gap: 24px;
   width: 100%;
+  overflow-x: hidden;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 18px 12px;
+  box-sizing: border-box;
 }
 
 .filtro-scroll {
@@ -213,12 +218,16 @@ watch([
 
 .filtro-busca {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
   padding: 7px 10px;
   border-radius: 8px;
   border: 1px solid #ddd;
   margin-bottom: 10px;
   font-size: 1rem;
   background: #fff;
+  overflow-x: hidden;
 }
 
 .filtro-lista {
@@ -264,6 +273,8 @@ select {
     width: 100%;
     padding: 12px 4vw;
     border-radius: 10px;
+    max-width: 99vw;
+    padding: 12px 2vw;
   }
   .filtro-scroll {
     max-height: none;
@@ -292,6 +303,8 @@ select {
     padding: 6px 2vw;
     border-radius: 0;
     box-shadow: none;
+    padding: 6px 1vw;
+    max-width: 99vw;
   }
   .filtro-bloco {
     padding: 6px 2px;
@@ -308,39 +321,6 @@ select {
     font-size: 0.95rem;
     padding: 4px 2px;
     border-radius: 3px;
-  }
-}
-
-@media (max-width: 900px) {
-  .filtro-container {
-    width: 100%;
-  }
-
-  .filtro-scroll {
-    max-height: none;
-    overflow-y: visible;
-    width: 100%;
-    overflow-x: hidden;
-  }
-}
-
-.filtro-container {
-  width: 100%;
-  max-width: 420px;
-  margin: 0 auto;
-  padding: 18px 12px;
-  box-sizing: border-box;
-}
-@media (max-width: 900px) {
-  .filtro-container {
-    max-width: 99vw;
-    padding: 12px 2vw;
-  }
-}
-@media (max-width: 600px) {
-  .filtro-container {
-    padding: 6px 1vw;
-    max-width: 99vw;
   }
 }
 </style>

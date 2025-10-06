@@ -214,12 +214,16 @@ watch([
 
 .filtro-busca {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
   padding: 7px 10px;
   border-radius: 8px;
   border: 1px solid #ddd;
   margin-bottom: 10px;
   font-size: 1rem;
   background: #fff;
+  overflow-x: hidden;
 }
 
 .filtro-lista {
@@ -314,18 +318,4 @@ select {
     padding: 4px 2px;
     border-radius: 3px;
   }
-}
-
-@media (max-width: 900px) {
-  .filtro-container {
-    width: 100%;
-  }
-
-  .filtro-scroll {
-    max-height: none;
-    overflow-y: visible;
-    width: 100%;
-    overflow-x: hidden;
-  }
-}
-</style>
+}</style>

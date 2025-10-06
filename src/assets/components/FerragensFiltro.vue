@@ -196,12 +196,16 @@ watch([
 
 .filtro-busca {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
   padding: 7px 10px;
   border-radius: 8px;
   border: 1px solid #ddd;
   margin-bottom: 10px;
   font-size: 1rem;
   background: #fff;
+  overflow-x: hidden;
 }
 
 .filtro-lista {

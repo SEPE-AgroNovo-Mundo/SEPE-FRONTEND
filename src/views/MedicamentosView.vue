@@ -340,7 +340,7 @@ function filtrarProdutos(filtros) {
 
 .conteudo {
   display: flex;
-  gap: 40px;
+  gap: 20px;
   max-width: 1400px;
   margin: 40px auto 0 auto;
   padding: 0 32px;
