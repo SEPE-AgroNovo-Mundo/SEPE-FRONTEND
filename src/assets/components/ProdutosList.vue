@@ -583,4 +583,12 @@ function isFavoritado(p) {
   from { opacity: 0; right: 0; }
   to { opacity: 1; right: 32px; }
 }
+
+@media (min-width: 1590px) and (max-width: 1610px) and (min-height: 700px) and (max-height: 740px) {
+  .alerta-top,
+  .alerta-carrinho,
+  .alert-confirmacao {
+    top: 120px !important;
+  }
+}
 </style>

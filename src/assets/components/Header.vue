@@ -158,6 +158,41 @@ function fecharFavoritos() {
   font-size: 1.08rem;
   width: 260px;
   background: #f3f6fa;
+  transition: width 0.3s, font-size 0.3s;
+}
+@media (max-width: 1200px) {
+  .busca {
+    width: 220px;
+    font-size: 1.05rem;
+  }
+}
+@media (max-width: 900px) {
+  .busca {
+    width: 160px;
+    font-size: 1rem;
+    padding: 8px 14px;
+  }
+}
+@media (max-width: 600px) {
+  .busca {
+    width: 120px;
+    font-size: 0.98rem;
+    padding: 7px 10px;
+  }
+}
+@media (max-width: 440px) {
+  .busca {
+    width: 90px;
+    font-size: 0.95rem;
+    padding: 6px 8px;
+  }
+}
+@media (min-width: 1590px) and (max-width: 1610px) and (min-height: 700px) and (max-height: 740px) {
+  .busca {
+    width: 340px !important;
+    font-size: 1.18rem !important;
+    padding: 12px 28px !important;
+  }
 }
 
 .icon {

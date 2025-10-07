@@ -50,14 +50,15 @@ function handleCadastro() {
     email: cadastro.value.email,
     imagem: cadastro.value.imagem
   }
-  localStorage.setItem('usuario', JSON.stringify(novoUsuario))
-  // Salva na lista de usuários
+  // Salva na lista de usuários (corrigido para não remover outros usuários com mesmo email)
   let lista = localStorage.getItem('usuarios')
   let arr = lista ? JSON.parse(lista) : []
-  arr = arr.filter(u => u.email !== novoUsuario.email) // evita duplicidade
+  // Não remover outros usuários, apenas não duplicar o mesmo id
+  arr = arr.filter(u => u.id !== novoUsuario.id)
   arr.push(novoUsuario)
   localStorage.setItem('usuarios', JSON.stringify(arr))
   usuarios.value = arr
+  localStorage.setItem('usuario', JSON.stringify(novoUsuario))
   usuario.value = novoUsuario
   cadastrando.value = false
 }
