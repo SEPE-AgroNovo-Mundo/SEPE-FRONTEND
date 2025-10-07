@@ -2,7 +2,14 @@
 import Header from '@/assets/components/Header.vue'
 import PetsFiltro from '@/assets/components/PetsFiltro.vue'
 import ProdutosList from '@/assets/components/ProdutosList.vue'
+import Footer from '@/assets/components/Footer.vue'
 import { ref, inject, watch, defineProps, defineEmits } from 'vue'
+
+import Imagem1 from '@/assets/imagens/1-pe.jpg'
+import Imagem2 from '@/assets/imagens/2-pe.jpg'
+import Imagem3 from '@/assets/imagens/3-pe.jpg'
+import Imagem4 from '@/assets/imagens/4-pe.jpg'
+import Imagem5 from '@/assets/imagens/5-pe.jpg'
 
 const props = defineProps({ adicionarAoCarrinho: Function, abrirCarrinho: Function, favoritos: Array })
 const emit = defineEmits(['toggle-favorito'])
@@ -17,7 +24,7 @@ const produtos = ref([
     cor: 'Azul',
     opcao: 'Único',
     preco: 89.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Coleira',
+    imagem: Imagem1,
     descricao: 'Coleira antipulgas para cães, proteção por até 8 meses.'
   },
   {
@@ -29,7 +36,7 @@ const produtos = ref([
     cor: 'Branco',
     opcao: 'Único',
     preco: 19.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Pote',
+    imagem: Imagem2,
     descricao: 'Pote de ração para gatos, capacidade de 2 litros.'
   },
   {
@@ -41,7 +48,7 @@ const produtos = ref([
     cor: 'Vermelho',
     opcao: 'Único',
     preco: 29.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Bola',
+    imagem: Imagem3,
     descricao: 'Bola interativa para cães, estimula o exercício.'
   },
   {
@@ -53,7 +60,7 @@ const produtos = ref([
     cor: 'Cinza',
     opcao: 'Médio',
     preco: 99.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Cama',
+    imagem: Imagem4,
     descricao: 'Cama confortável para gatos, tamanho médio.'
   },
   {
@@ -65,7 +72,7 @@ const produtos = ref([
     cor: 'Prata',
     opcao: 'Único',
     preco: 49.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Comedouro',
+    imagem: Imagem5,
     descricao: 'Comedouro duplo em inox para cães.'
   }
 ])
@@ -134,6 +141,7 @@ function filtrarProdutos(filtros) {
         <ProdutosList :produtos="produtosFiltrados" :adicionarAoCarrinho="props.adicionarAoCarrinho" :favoritos="props.favoritos" @toggle-favorito="emit('toggle-favorito', $event)" />
       </main>
     </div>
+    <Footer />
   </div>
 </template>
 
