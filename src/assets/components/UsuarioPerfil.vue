@@ -144,19 +144,33 @@ function excluirUsuario(id) {
 }
 
 function onGoogleSuccess(response) {
-  // Sempre ativa o modo cadastro ao clicar no Google
   cadastrando.value = true
+  // Adicionado log para depuração
+  console.log('Google response:', response)
+  let nome = ''
+  let email = ''
+  let imagem = ''
   if (response && response.profileObj) {
-    cadastro.value.nome = response.profileObj.name || ''
-    cadastro.value.email = response.profileObj.email || ''
-    cadastro.value.imagem = response.profileObj.imageUrl || ''
+    nome = response.profileObj.name || ''
+    email = response.profileObj.email || ''
+    imagem = response.profileObj.imageUrl || ''
   } else if (response && response.credential) {
-    // Para Google Identity Services (token JWT)
-    const payload = JSON.parse(atob(response.credential.split('.')[1]))
-    cadastro.value.nome = payload.name || ''
-    cadastro.value.email = payload.email || ''
-    cadastro.value.imagem = payload.picture || ''
+    try {
+      const payload = JSON.parse(atob(response.credential.split('.')[1]))
+      nome = payload.name || ''
+      email = payload.email || ''
+      imagem = payload.picture || ''
+    } catch (e) {
+      console.error('Erro ao decodificar credential:', e)
+    }
+  } else if (response && response.name && response.email) {
+    nome = response.name
+    email = response.email
+    imagem = response.picture || ''
   }
+  if (nome) cadastro.value.nome = nome
+  if (email) cadastro.value.email = email
+  if (imagem) cadastro.value.imagem = imagem
 }
 
 function onGoogleError(error) {
