@@ -5,6 +5,12 @@ import ProdutosList from '@/assets/components/ProdutosList.vue'
 import Footer from '@/assets/components/Footer.vue'
 import { ref, inject, watch, defineProps, defineEmits } from 'vue'
 
+import Imagem1 from '@/assets/imagens/1-ra.jpg'
+import Imagem2 from '@/assets/imagens/2-ra.jpg'
+import Imagem3 from '@/assets/imagens/3-ra.jpg'
+import Imagem4 from '@/assets/imagens/4-ra.jpg'
+import Imagem5 from '@/assets/imagens/5-ra.jpg'
+
 const props = defineProps({ adicionarAoCarrinho: Function, abrirCarrinho: Function, favoritos: Array })
 const emit = defineEmits(['toggle-favorito'])
 
@@ -18,7 +24,7 @@ const produtos = ref([
     peso: '7.5 Kg',
     opcao: '1 Unidade',
     preco: 464.06,
-    imagem: 'https://via.placeholder.com/120x120?text=Racao+1',
+    imagem: Imagem1,
     descricao: 'Ração premium para cães adultos sabor salmão e cordeiro.'
   },
   {
@@ -30,7 +36,7 @@ const produtos = ref([
     peso: '1.5 Kg',
     opcao: '1 Unidade',
     preco: 232.09,
-    imagem: 'https://via.placeholder.com/120x120?text=Racao+2',
+    imagem: Imagem2,
     descricao: 'Ração ND Quinoa para gatos adultos.'
   },
   {
@@ -42,7 +48,7 @@ const produtos = ref([
     peso: '10.1 Kg',
     opcao: '1 Unidade',
     preco: 195.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Racao+3',
+    imagem: Imagem3,
     descricao: 'Ração Upper para cães filhotes.'
   },
   {
@@ -54,7 +60,7 @@ const produtos = ref([
     peso: '20 Kg',
     opcao: '1 Unidade',
     preco: 253.08,
-    imagem: 'https://via.placeholder.com/120x120?text=Racao+4',
+    imagem: Imagem4,
     descricao: 'Ração GMP PET para cães adultos.'
   },
   {
@@ -66,7 +72,7 @@ const produtos = ref([
     peso: '1.5 Kg',
     opcao: '1 Unidade',
     preco: 130.40,
-    imagem: 'https://via.placeholder.com/120x120?text=Racao+5',
+    imagem: Imagem5,
     descricao: 'Ração Neovia para gatos adultos.'
   }
 ])

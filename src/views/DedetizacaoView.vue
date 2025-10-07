@@ -5,6 +5,12 @@ import ProdutosList from '@/assets/components/ProdutosList.vue'
 import Footer from '@/assets/components/Footer.vue'
 import { ref, inject, watch, defineProps, defineEmits } from 'vue'
 
+import Imagem1 from '@/assets/imagens/1-pa.jpg'
+import Imagem2 from '@/assets/imagens/2-pa.jpg'
+import Imagem3 from '@/assets/imagens/3-pa.jpg'
+import Imagem4 from '@/assets/imagens/4-pa.jpg'
+import Imagem5 from '@/assets/imagens/5-pa.jpg'
+
 const props = defineProps({ adicionarAoCarrinho: Function, abrirCarrinho: Function, favoritos: Array })
 const emit = defineEmits(['toggle-favorito'])
 
@@ -19,7 +25,7 @@ const produtos = ref([
     peso: '100 g',
     opcao: 'Único',
     preco: 3.15,
-    imagem: 'https://via.placeholder.com/120x120?text=Rodilon',
+    imagem: Imagem1,
     descricao: 'Isca para combate de roedores.'
   },
   {
@@ -32,7 +38,7 @@ const produtos = ref([
     peso: '100 g',
     opcao: 'Único',
     preco: 22.10,
-    imagem: 'https://via.placeholder.com/120x120?text=Ficam',
+    imagem: Imagem2,
     descricao: 'Controle de pragas.'
   },
   {
@@ -45,7 +51,7 @@ const produtos = ref([
     peso: '100 g',
     opcao: 'Único',
     preco: 17.59,
-    imagem: 'https://via.placeholder.com/120x120?text=Rodilon+Soft',
+    imagem: Imagem3,
     descricao: 'Isca fresca e atrativa para roedores.'
   },
   {
@@ -58,7 +64,7 @@ const produtos = ref([
     peso: '100 g',
     opcao: 'Único',
     preco: 11.21,
-    imagem: 'https://via.placeholder.com/120x120?text=K-Othrine',
+    imagem: Imagem4,
     descricao: 'Protege sua casa por até 3 meses.'
   },
   {
@@ -71,7 +77,7 @@ const produtos = ref([
     peso: '100 g',
     opcao: 'Único',
     preco: 61.31,
-    imagem: 'https://via.placeholder.com/120x120?text=Diazitop',
+    imagem: Imagem5,
     descricao: 'Controle de formigas.'
   }
 ])

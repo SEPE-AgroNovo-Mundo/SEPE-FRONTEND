@@ -4,6 +4,11 @@ import HormoniosFiltro from '@/assets/components/HormoniosFiltro.vue'
 import ProdutosList from '@/assets/components/ProdutosList.vue'
 import Footer from '@/assets/components/Footer.vue'
 import { ref, inject, watch, defineProps, defineEmits } from 'vue'
+import Imagem1 from '@/assets/imagens/1-h.jpg'
+import Imagem2 from '@/assets/imagens/2-h.jpg'
+import Imagem3 from '@/assets/imagens/3-h.jpg'
+import Imagem4 from '@/assets/imagens/4-h.jpg'
+import Imagem5 from '@/assets/imagens/5-h.jpg'
 
 const props = defineProps({ adicionarAoCarrinho: Function, abrirCarrinho: Function, favoritos: Array })
 const emit = defineEmits(['toggle-favorito'])
@@ -19,7 +24,7 @@ const produtos = ref([
     peso: '5 g',
     opcao: 'Caixa',
     preco: 120.00,
-    imagem: 'https://via.placeholder.com/120x120?text=HCG',
+    imagem: Imagem1,
     descricao: 'Hormônio para indução de ovulação em bovinos.'
   },
   {
@@ -32,7 +37,7 @@ const produtos = ref([
     peso: '10 g',
     opcao: 'Frasco',
     preco: 85.50,
-    imagem: 'https://via.placeholder.com/120x120?text=Ocitocina',
+    imagem: Imagem2,
     descricao: 'Hormônio para indução de parto em equinos.'
   },
   {
@@ -45,7 +50,7 @@ const produtos = ref([
     peso: '20 g',
     opcao: 'Ampola',
     preco: 99.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Progesterona',
+    imagem: Imagem3,
     descricao: 'Hormônio para sincronização de cio em suínos.'
   },
   {
@@ -58,7 +63,7 @@ const produtos = ref([
     peso: '50 g',
     opcao: 'Frasco',
     preco: 150.00,
-    imagem: 'https://via.placeholder.com/120x120?text=Testosterona',
+    imagem: Imagem4,
     descricao: 'Hormônio para ganho de massa muscular em bovinos.'
   },
   {
@@ -71,7 +76,7 @@ const produtos = ref([
     peso: '5 g',
     opcao: 'Ampola',
     preco: 110.00,
-    imagem: 'https://via.placeholder.com/120x120?text=Estrogenio',
+    imagem: Imagem5,
     descricao: 'Hormônio para regulação do ciclo reprodutivo em equinos.'
   }
 ])
