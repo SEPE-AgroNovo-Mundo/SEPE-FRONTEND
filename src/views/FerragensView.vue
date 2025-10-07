@@ -5,6 +5,16 @@ import FerragensFiltro from '@/assets/components/FerragensFiltro.vue'
 import Footer from '@/assets/components/Footer.vue'
 import { ref, inject, watch, defineProps, defineEmits } from 'vue'
 
+import Imagem1 from '@/assets/imagens/1-f.jpg'
+import Imagem2 from '@/assets/imagens/2-f.jpg'
+import Imagem3 from '@/assets/imagens/3-f.jpg'
+import Imagem4 from '@/assets/imagens/4-f.jpg'
+import Imagem5 from '@/assets/imagens/5-f.jpg'
+import Imagem6 from '@/assets/imagens/6-f.jpg'
+import Imagem7 from '@/assets/imagens/7-f.jpg'
+import Imagem8 from '@/assets/imagens/8-f.jpg'
+import Imagem9 from '@/assets/imagens/9-f.jpg'
+
 const props = defineProps({ adicionarAoCarrinho: Function, abrirCarrinho: Function, favoritos: Array })
 const emit = defineEmits(['toggle-favorito'])
 
@@ -18,7 +28,7 @@ const produtos = ref([
     peso: '1 Kg',
     opcao: '250 Metros',
     preco: 2083.56,
-    imagem: 'https://via.placeholder.com/120x120?text=Arame+1',
+    imagem: Imagem1,
     descricao: 'Cordoalha de aço galvanizado para cercas rurais.'
   },
   {
@@ -30,7 +40,7 @@ const produtos = ref([
     peso: '100 Metros',
     opcao: '1000 Metros',
     preco: 1322.60,
-    imagem: 'https://via.placeholder.com/120x120?text=Arame+2',
+    imagem: Imagem2,
     descricao: 'Arame ovalado de alta resistência para cercas.'
   },
   {
@@ -42,7 +52,7 @@ const produtos = ref([
     peso: 'Nº 16',
     opcao: '500 Metros',
     preco: 499.59,
-    imagem: 'https://via.placeholder.com/120x120?text=Arame+3',
+    imagem: Imagem3,
     descricao: 'Arame farpado Motto para cercas rurais.'
   },
   {
@@ -54,7 +64,7 @@ const produtos = ref([
     peso: 'Nº 18',
     opcao: '1000 Metros',
     preco: 818.69,
-    imagem: 'https://via.placeholder.com/120x120?text=Arame+4',
+    imagem: Imagem4,
     descricao: 'Arame liso ovalado de alta durabilidade.'
   },
   {
@@ -66,7 +76,7 @@ const produtos = ref([
     peso: 'Nº 20',
     opcao: '20Kg',
     preco: 299.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Grampo+1',
+    imagem: Imagem5,
     descricao: 'Grampo galvanizado para reforço de cerca.'
   },
   {
@@ -78,7 +88,7 @@ const produtos = ref([
     peso: 'Nº 16',
     opcao: 'Único',
     preco: 19.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Isolador+1',
+    imagem: Imagem6,
     descricao: 'Isolador para cerca elétrica em vaso de madeira.'
   },
   {
@@ -90,7 +100,7 @@ const produtos = ref([
     peso: 'Nº 18',
     opcao: '1/2"',
     preco: 14.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Uniao+1',
+    imagem: Imagem7,
     descricao: 'União para tubos hidráulicos com rosca.'
   },
   {
@@ -102,7 +112,7 @@ const produtos = ref([
     peso: 'Nº 20',
     opcao: '500 Metros',
     preco: 399.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Arame+5',
+    imagem: Imagem8,
     descricao: 'Arame farpado Fortte para cercas.'
   },
   {
@@ -114,21 +124,10 @@ const produtos = ref([
     peso: '1 Kg',
     opcao: '100 Metros',
     preco: 99.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Arame+6',
+    imagem: Imagem9,
     descricao: 'Arame farpado Rodeio para cercas urbanas e rurais.'
-  },
-  {
-    id: 10,
-    nome: 'União Tipo T Triplo - 1/2"',
-    marca: 'Cipla',
-    categoria: 'Hidráulicos',
-    volume: '65 Litros',
-    peso: 'Nº 16',
-    opcao: '1/2"',
-    preco: 12.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Uniao+2',
-    descricao: 'União tipo T para tubos hidráulicos.'
   }
+
 ])
 
 const termoBuscaGlobal = inject('termoBuscaGlobal')

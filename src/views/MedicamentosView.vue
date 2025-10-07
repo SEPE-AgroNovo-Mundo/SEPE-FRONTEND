@@ -4,6 +4,21 @@ import MedicaFiltro from '@/assets/components/MedicaFiltro.vue'
 import ProdutosList from '@/assets/components/ProdutosList.vue'
 import Footer from '@/assets/components/Footer.vue'
 import { ref, inject, watch, defineProps, defineEmits } from 'vue'
+import VermifugoOurofinoImg from '@/assets/imagens/Vermifugo_Ourofino.jpg'
+import Imagem2 from '@/assets/imagens/2.jpg'
+import Imagem3 from '@/assets/imagens/3.jpg'
+import Imagem4 from '@/assets/imagens/04.jpg'
+import Imagem5 from '@/assets/imagens/05.jpg'
+import Imagem6 from '@/assets/imagens/06.jpg'
+import Imagem7 from '@/assets/imagens/07.jpg'
+import Imagem8 from '@/assets/imagens/8.jpg'
+import Imagem9 from '@/assets/imagens/9.jpg'
+import Imagem10 from '@/assets/imagens/10.jpg'
+import Imagem11 from '@/assets/imagens/11.jpg'
+import Imagem12 from '@/assets/imagens/12.jpg'
+import Imagem13 from '@/assets/imagens/13.jpg'
+import Imagem14 from '@/assets/imagens/14.jpg'
+import Imagem15 from '@/assets/imagens/15.jpg'
 
 const props = defineProps({ adicionarAoCarrinho: Function, abrirCarrinho: Function, favoritos: Array })
 const emit = defineEmits(['toggle-favorito'])
@@ -18,7 +33,7 @@ const produtos = ref([
     peso: '10 G',
     opcao: 'Único',
     preco: 29.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Produto+1',
+    imagem: VermifugoOurofinoImg,
     descricao: 'Vermífugo para pets. Elimina vermes e protege a saúde do seu animal.'
   },
   {
@@ -29,7 +44,7 @@ const produtos = ref([
     peso: '100 G',
     opcao: 'Caixa Com 1 Unidade',
     preco: 49.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Produto+2',
+    imagem: Imagem2,
     descricao: 'Antibiótico para bovinos. Tratamento eficaz contra infecções.'
   },
   {
@@ -40,7 +55,7 @@ const produtos = ref([
     peso: '1 Kg',
     opcao: '20 Unidades',
     preco: 99.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Produto+3',
+    imagem: Imagem3,
     descricao: 'Suplemento vitamínico para equinos. Fortalece e melhora o desempenho.'
   },
   {
@@ -51,7 +66,7 @@ const produtos = ref([
     peso: '30 G',
     opcao: 'Único',
     preco: 19.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Produto+4',
+    imagem: Imagem4,
     descricao: 'Anti alérgico para cães. Alivia sintomas de alergia.'
   },
   {
@@ -62,7 +77,7 @@ const produtos = ref([
     peso: '50 G',
     opcao: 'Caixa Com 3 Unidades',
     preco: 79.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Produto+5',
+    imagem: Imagem5,
     descricao: 'Hormônio para bovinos. Auxilia no crescimento e reprodução.'
   },
   {
@@ -73,7 +88,7 @@ const produtos = ref([
     peso: '100 G',
     opcao: '20 Comprimidos',
     preco: 39.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Produto+6',
+    imagem: Imagem6,
     descricao: 'Suplemento para pets. Fortalece o sistema imunológico.'
   },
   {
@@ -84,7 +99,7 @@ const produtos = ref([
     peso: '10 G',
     opcao: 'Único',
     preco: 24.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Produto+7',
+    imagem: Imagem7,
     descricao: 'Antibiótico para pets. Combate infecções bacterianas.'
   },
   {
@@ -95,7 +110,7 @@ const produtos = ref([
     peso: '1 Kg',
     opcao: 'Caixa Com 1 Unidade',
     preco: 59.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Produto+8',
+    imagem: Imagem8,
     descricao: 'Vermífugo para bovinos. Protege contra vermes intestinais.'
   },
   {
@@ -106,7 +121,7 @@ const produtos = ref([
     peso: '30 G',
     opcao: 'Único',
     preco: 34.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Produto+9',
+    imagem: Imagem9,
     descricao: 'Anti inflamatório para equinos. Reduz inflamações e dores.'
   },
   {
@@ -117,7 +132,7 @@ const produtos = ref([
     peso: '10 G',
     opcao: '20 Unidades',
     preco: 89.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Produto+10',
+    imagem: Imagem10,
     descricao: 'Hormônio para pets. Auxilia no desenvolvimento saudável.'
   },
   {
@@ -128,7 +143,7 @@ const produtos = ref([
     peso: '1 Kg',
     opcao: 'Caixa Com 3 Unidades',
     preco: 109.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Produto+11',
+    imagem: Imagem11,
     descricao: 'Suplemento para bovinos. Melhora a produção de leite.'
   },
   {
@@ -139,7 +154,7 @@ const produtos = ref([
     peso: '50 G',
     opcao: 'Único',
     preco: 54.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Produto+12',
+    imagem: Imagem12,
     descricao: 'Antibiótico para equinos. Tratamento de infecções.'
   },
   {
@@ -150,7 +165,7 @@ const produtos = ref([
     peso: '100 G',
     opcao: '20 Comprimidos',
     preco: 44.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Produto+13',
+    imagem: Imagem13,
     descricao: 'Vermífugo para equinos. Elimina vermes e parasitas.'
   },
   {
@@ -161,7 +176,7 @@ const produtos = ref([
     peso: '1 Kg',
     opcao: 'Caixa Com 1 Unidade',
     preco: 29.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Produto+14',
+    imagem: Imagem14,
     descricao: 'Anti alérgico para bovinos. Alivia sintomas de alergia.'
   },
   {
@@ -172,64 +187,9 @@ const produtos = ref([
     peso: '30 G',
     opcao: 'Único',
     preco: 99.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Produto+15',
+    imagem: Imagem15,
     descricao: 'Hormônio para equinos. Auxilia no crescimento.'
   },
-  {
-    id: 16,
-    nome: 'Suplemento Canino',
-    marca: 'Calbos',
-    categoria: 'Suplementos',
-    peso: '10 G',
-    opcao: '20 Unidades',
-    preco: 24.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Produto+16',
-    descricao: 'Suplemento para cães. Fortalece ossos e dentes.'
-  },
-  {
-    id: 17,
-    nome: 'Antibiótico Canino',
-    marca: 'Ourofino',
-    categoria: 'Antibióticos E Anti Microbianos',
-    peso: '100 G',
-    opcao: 'Caixa Com 3 Unidades',
-    preco: 39.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Produto+17',
-    descricao: 'Antibiótico para cães. Combate infecções.'
-  },
-  {
-    id: 18,
-    nome: 'Vermífugo Canino',
-    marca: 'Zoetis',
-    categoria: 'Anti Parasitários',
-    peso: '1 Kg',
-    opcao: 'Único',
-    preco: 49.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Produto+18',
-    descricao: 'Vermífugo para cães. Elimina vermes intestinais.'
-  },
-  {
-    id: 19,
-    nome: 'Anti Inflamatório Pet',
-    marca: 'União Química',
-    categoria: 'Anti Alérgicos E Anti Inflamatórios',
-    peso: '30 G',
-    opcao: '20 Comprimidos',
-    preco: 34.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Produto+19',
-    descricao: 'Anti inflamatório para pets. Reduz inflamações.'
-  },
-  {
-    id: 20,
-    nome: 'Hormônio Canino',
-    marca: 'Calbos',
-    categoria: 'Hormônios',
-    peso: '50 G',
-    opcao: 'Caixa Com 1 Unidade',
-    preco: 79.90,
-    imagem: 'https://via.placeholder.com/120x120?text=Produto+20',
-    descricao: 'Hormônio para cães. Auxilia no desenvolvimento.'
-  }
 
 ])
 
