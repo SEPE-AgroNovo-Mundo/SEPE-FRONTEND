@@ -144,7 +144,8 @@ function excluirUsuario(id) {
 }
 
 function onGoogleSuccess(response) {
-  cadastrando.value = true // Garante que o formulário de cadastro fique visível
+  // Sempre ativa o modo cadastro ao clicar no Google
+  cadastrando.value = true
   if (response && response.profileObj) {
     cadastro.value.nome = response.profileObj.name || ''
     cadastro.value.email = response.profileObj.email || ''
