@@ -1,3 +1,4 @@
+<!-- eslint-disable no-empty -->
 <!-- eslint-disable vue/no-mutating-props -->
 <script setup>
 defineOptions({ name: 'AppCarrinho' })
@@ -84,6 +85,27 @@ function continuarCompra() {
     setTimeout(() => {
       showConfirmAlert.value = false
       emit('fechar')
+      // Salva histórico de compras do usuário logado
+      const usuario = localStorage.getItem('usuario')
+      if (usuario) {
+        try {
+          const user = JSON.parse(usuario)
+          const historicoKey = 'historico_' + user.id
+          const historico = localStorage.getItem(historicoKey)
+          const arr = historico ? JSON.parse(historico) : []
+          arr.unshift({
+            data: new Date().toLocaleString('pt-BR'),
+            produtos: props.produtos.filter(p => selecionados.value.includes(p.id)).map(p => ({
+              id: p.id,
+              nome: p.nome,
+              quantidade: p.quantidade,
+              preco: p.preco
+            })),
+            total: total.value
+          })
+          localStorage.setItem(historicoKey, JSON.stringify(arr))
+        } catch {}
+      }
       // Limpa o carrinho ao finalizar a compra
       props.produtos.splice(0, props.produtos.length)
       step.value = 1

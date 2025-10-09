@@ -20,6 +20,20 @@ const usuarios = ref([])
 const showSelecionarUsuario = ref(false)
 const editando = ref(false)
 const editarDados = ref({ nome: '', email: '', imagem: '' })
+const historicoCompras = ref([])
+
+function carregarHistorico() {
+  const u = localStorage.getItem('usuario')
+  if (u) {
+    try {
+      const obj = JSON.parse(u)
+      const historico = localStorage.getItem('historico_' + obj.id)
+      historicoCompras.value = historico ? JSON.parse(historico) : []
+    } catch {
+      // Erro ao carregar histórico, ignorado intencionalmente
+    }
+  }
+}
 
 onMounted(() => {
   const dados = localStorage.getItem('usuario')
@@ -39,6 +53,7 @@ onMounted(() => {
   } else {
     cadastrando.value = true
   }
+  carregarHistorico()
 })
 
 function handleCadastro() {
@@ -93,6 +108,7 @@ function selecionarUsuario(u) {
   usuario.value = u
   cadastrando.value = false
   showSelecionarUsuario.value = false
+  carregarHistorico() // Atualiza o histórico ao trocar de usuário
 }
 
 function iniciarEdicao() {
@@ -182,62 +198,79 @@ function onGoogleError(error) {
   <div class="usuario-perfil-externo">
     <img src="@/assets/imagens/seta-preta.png" class="seta-voltar-topo" @click="$router.push('/medicamentos')"
       alt="Voltar" />
-    <div class="usuario-perfil-card">
-      <div class="perfil-foto-area">
-        <img :src="usuario.imagem || logo" alt="Foto do usuário" class="foto-usuario" v-if="!cadastrando" />
-        <div v-if="!cadastrando" class="perfil-nome-email">
-          <div class="usuario-nome">{{ usuario.nome }}</div>
-          <div class="usuario-email">{{ usuario.email }}</div>
-          <div class="usuario-id">ID: {{ usuario.id }}</div>
+    <div class="usuario-perfil-layout">
+      <div class="usuario-perfil-card">
+        <div class="perfil-foto-area">
+          <img :src="usuario.imagem || logo" alt="Foto do usuário" class="foto-usuario" v-if="!cadastrando" />
+          <div v-if="!cadastrando" class="perfil-nome-email">
+            <div class="usuario-nome">{{ usuario.nome }}</div>
+            <div class="usuario-email">{{ usuario.email }}</div>
+            <div class="usuario-id">ID: {{ usuario.id }}</div>
+          </div>
         </div>
-      </div>
-      <form v-if="cadastrando" class="form-cadastro" @submit.prevent="handleCadastro">
-        <div class="form-titulo">Cadastro de Usuário</div>
-        <label>
-          Nome:
-          <input v-model="cadastro.nome" type="text" required />
-        </label>
-        <label>
-          E-mail:
-          <input v-model="cadastro.email" type="email" required />
-        </label>
-        <label>
-          Senha:
-          <input v-model="cadastro.senha" type="password" required />
-        </label>
-        <label>
-          Foto (opcional):
-          <input type="file" accept="image/*" @change="handleImagem" />
-        </label>
-        <div style="display: flex; justify-content: center; margin: 16px 0;">
-          <GoogleLogin
-            :onSuccess="onGoogleSuccess"
-            :onError="onGoogleError"
-          />
+        <form v-if="cadastrando" class="form-cadastro" @submit.prevent="handleCadastro">
+          <div class="form-titulo">Cadastro de Usuário</div>
+          <label>
+            Nome:
+            <input v-model="cadastro.nome" type="text" required />
+          </label>
+          <label>
+            E-mail:
+            <input v-model="cadastro.email" type="email" required />
+          </label>
+          <label>
+            Senha:
+            <input v-model="cadastro.senha" type="password" required />
+          </label>
+          <label>
+            Foto (opcional):
+            <input type="file" accept="image/*" @change="handleImagem" />
+          </label>
+          <div style="display: flex; justify-content: center; margin: 16px 0;">
+            <GoogleLogin
+              :onSuccess="onGoogleSuccess"
+              :onError="onGoogleError"
+            />
+          </div>
+          <button type="submit">Cadastrar</button>
+        </form>
+        <div v-if="!cadastrando" class="botoes-usuario">
+          <button class="btn-logout" @click="deslogar" v-if="!editando">Trocar de usuário</button>
+          <button class="btn-editar" @click="iniciarEdicao" v-if="!editando">Editar</button>
         </div>
-        <button type="submit">Cadastrar</button>
-      </form>
-      <div v-if="!cadastrando" class="botoes-usuario">
-        <button class="btn-logout" @click="deslogar" v-if="!editando">Trocar de usuário</button>
-        <button class="btn-editar" @click="iniciarEdicao" v-if="!editando">Editar</button>
+        <form v-if="editando" class="form-edicao" @submit.prevent="salvarEdicao">
+          <div class="form-titulo">Editar Usuário</div>
+          <label>
+            Nome:
+            <input v-model="editarDados.nome" type="text" required />
+          </label>
+          <label>
+            E-mail:
+            <input v-model="editarDados.email" type="email" required />
+          </label>
+          <label>
+            Foto (opcional):
+            <input type="file" accept="image/*" @change="handleImagemEdicao" />
+          </label>
+          <button type="submit">Salvar</button>
+          <button type="button" @click="editando = false">Cancelar</button>
+        </form>
       </div>
-      <form v-if="editando" class="form-edicao" @submit.prevent="salvarEdicao">
-        <div class="form-titulo">Editar Usuário</div>
-        <label>
-          Nome:
-          <input v-model="editarDados.nome" type="text" required />
-        </label>
-        <label>
-          E-mail:
-          <input v-model="editarDados.email" type="email" required />
-        </label>
-        <label>
-          Foto (opcional):
-          <input type="file" accept="image/*" @change="handleImagemEdicao" />
-        </label>
-        <button type="submit">Salvar</button>
-        <button type="button" @click="editando = false">Cancelar</button>
-      </form>
+      <div class="historico-compras-card">
+        <h3>Histórico de Compras</h3>
+        <div v-if="historicoCompras.length">
+          <div v-for="(compra, idx) in historicoCompras" :key="idx" class="historico-compra-item">
+            <div class="historico-compra-data">{{ compra.data }}</div>
+            <ul class="historico-compra-lista">
+              <li v-for="prod in compra.produtos" :key="prod.id">
+                {{ prod.nome }} ({{ prod.quantidade }}x) - R$ {{ prod.preco.toFixed(2) }}
+              </li>
+            </ul>
+            <div class="historico-compra-total">Total: R$ {{ compra.total.toFixed(2) }}</div>
+          </div>
+        </div>
+        <div v-else class="historico-vazio">Nenhuma compra realizada ainda.</div>
+      </div>
     </div>
   </div>
 
@@ -718,5 +751,73 @@ function onGoogleError(error) {
 .usuario-perfil-form button {
   width: 100%;
   box-sizing: border-box;
+}
+
+.usuario-perfil-layout {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  align-items: flex-start;
+  justify-content: center;
+}
+.historico-compras-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px #0002;
+  padding: 28px 24px 18px 24px;
+  min-width: 320px;
+  max-width: 400px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.historico-compras-card h3 {
+  color: #f4511e;
+  font-size: 1.18rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.historico-compra-item {
+  background: #f7f8fa;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px #0001;
+  padding: 14px 12px 10px 12px;
+  margin-bottom: 12px;
+}
+.historico-compra-data {
+  color: #888;
+  font-size: 0.98rem;
+  margin-bottom: 6px;
+}
+.historico-compra-lista {
+  margin: 0 0 6px 0;
+  padding-left: 18px;
+  color: #444;
+  font-size: 1rem;
+}
+.historico-compra-total {
+  color: #388e3c;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+.historico-vazio {
+  color: #888;
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 24px;
+}
+@media (max-width: 900px) {
+  .usuario-perfil-layout {
+    flex-direction: column;
+    gap: 18px;
+    align-items: stretch;
+  }
+  .historico-compras-card {
+    min-width: 0;
+    max-width: 99vw;
+    width: 100%;
+    padding: 18px 2vw 12px 2vw;
+  }
 }
 </style>
