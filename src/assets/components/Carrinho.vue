@@ -140,7 +140,6 @@ function voltarEtapa() {
                 <div class="carrinho-var">Cor: {{ produto.cor || '-' }}</div>
                 <div class="carrinho-acoes">
                   <span class="carrinho-link" @click="emit('remover', produto)">Excluir</span>
-                  <span class="carrinho-link">Alterar</span>
                 </div>
               </div>
               <div class="carrinho-qtd-area">

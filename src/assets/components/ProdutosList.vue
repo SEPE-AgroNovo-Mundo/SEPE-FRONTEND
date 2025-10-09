@@ -151,21 +151,21 @@ function toggleFeedbacks() {
                 </div>
               </div>
               <div v-else class="feedback-vazio">Nenhum feedback para este produto ainda.</div>
-              <!-- Botão para abrir o formulário de feedback -->
-              <button v-if="!feedbackFormAberto" class="abrir-feedback-btn" @click="abrirFeedbackForm">Adicionar feedback</button>
-              <!-- Formulário para novo feedback -->
-              <form v-if="feedbackFormAberto" class="feedback-form" @submit.prevent="enviarFeedback" style="margin-top:12px;">
-                <input v-model="novoFeedback.usuario" placeholder="Seu nome" required disabled style="margin-bottom:6px; background:#f3f3f3; color:#888;" />
-                <select v-model="novoFeedback.nota" required style="margin-bottom:6px;">
-                  <option v-for="n in 5" :key="n" :value="n">{{ n }} estrela{{ n > 1 ? 's' : '' }}</option>
-                </select>
-                <textarea v-model="novoFeedback.comentario" placeholder="Seu comentário" required rows="2" style="margin-bottom:6px;"></textarea>
-                <div style="display:flex; gap:10px;">
-                  <button type="submit">Enviar feedback</button>
-                  <button type="button" @click="fecharFeedbackForm" style="background:#eee;color:#f4511e;">Cancelar</button>
-                </div>
-              </form>
             </div>
+            <!-- Botão para abrir o formulário de feedback SEMPRE visível -->
+            <button v-if="!feedbackFormAberto" class="abrir-feedback-btn" @click="abrirFeedbackForm">Adicionar feedback</button>
+            <!-- Formulário para novo feedback -->
+            <form v-if="feedbackFormAberto" class="feedback-form" @submit.prevent="enviarFeedback" style="margin-top:12px;">
+              <input v-model="novoFeedback.usuario" placeholder="Seu nome" required disabled style="margin-bottom:6px; background:#f3f3f3; color:#888;" />
+              <select v-model="novoFeedback.nota" required style="margin-bottom:6px;">
+                <option v-for="n in 5" :key="n" :value="n">{{ n }} estrela{{ n > 1 ? 's' : '' }}</option>
+              </select>
+              <textarea v-model="novoFeedback.comentario" placeholder="Seu comentário" required rows="2" style="margin-bottom:6px;"></textarea>
+              <div style="display:flex; gap:10px;">
+                <button type="submit">Enviar feedback</button>
+                <button type="button" @click="fecharFeedbackForm" style="background:#eee;color:#f4511e;">Cancelar</button>
+              </div>
+            </form>
           </div>
         </div>
         <div class="ml-info">
