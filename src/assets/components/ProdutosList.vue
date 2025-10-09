@@ -16,10 +16,65 @@ const valorTotal = computed(() => {
   return quantidade.value * produtoSelecionado.value.preco
 })
 
+
+// Feedbacks dinâmicos por produto
+const feedbacks = ref([])
+const novoFeedback = ref({ usuario: '', nota: 5, comentario: '' })
+const feedbackFormAberto = ref(false)
+const feedbacksVisiveis = ref(true)
+
+function carregarFeedbacks(id) {
+  const salvos = localStorage.getItem('feedbacks_' + id)
+  feedbacks.value = salvos ? JSON.parse(salvos) : []
+}
+function salvarFeedbacks(id) {
+  localStorage.setItem('feedbacks_' + id, JSON.stringify(feedbacks.value))
+}
+function enviarFeedback() {
+  if (!novoFeedback.value.usuario || !novoFeedback.value.comentario) return
+  feedbacks.value.push({ ...novoFeedback.value })
+  salvarFeedbacks(produtoSelecionado.value.id)
+  novoFeedback.value = { usuario: usuarioLogado(), nota: 5, comentario: '' }
+}
+
+function removerFeedback(idx) {
+  // Só permite remover se for o feedback do usuário logado
+  const nomeLogado = usuarioLogado()
+  if (feedbacks.value[idx].usuario === nomeLogado) {
+    feedbacks.value.splice(idx, 1)
+    salvarFeedbacks(produtoSelecionado.value.id)
+  }
+}
+
+function abrirFeedbackForm() {
+  feedbackFormAberto.value = true
+}
+function fecharFeedbackForm() {
+  feedbackFormAberto.value = false
+  novoFeedback.value = { usuario: usuarioLogado(), nota: 5, comentario: '' }
+}
+
+function usuarioLogado() {
+  // Busca o nome do usuário logado no localStorage
+  const u = localStorage.getItem('usuario')
+  if (u) {
+    try {
+      const obj = JSON.parse(u)
+      return obj.nome || ''
+    } catch {
+      // Falha ao fazer parse do usuário, retorna string vazia
+    }
+  }
+  return ''
+}
+
 function abrirModal(produto) {
   produtoSelecionado.value = produto
   modalAberto.value = true
   quantidade.value = 1
+  carregarFeedbacks(produto.id)
+  novoFeedback.value.usuario = usuarioLogado()
+  feedbackFormAberto.value = false
 }
 function fecharModal() {
   modalAberto.value = false
@@ -43,6 +98,10 @@ function comprarAgora() {
 
 function isFavoritado(p) {
   return props.favoritos && props.favoritos.some(f => f.id === p.id && f.nome === p.nome && f.marca === p.marca)
+}
+
+function toggleFeedbacks() {
+  feedbacksVisiveis.value = !feedbacksVisiveis.value
 }
 </script>
 
@@ -72,6 +131,42 @@ function isFavoritado(p) {
       <div class="ml-flex">
         <div class="ml-imgs">
           <img :src="produtoSelecionado.imagem" :alt="produtoSelecionado.nome" class="ml-img-grande" />
+          <!-- Área de feedbacks dos usuários -->
+          <div class="feedbacks-area">
+            <h4 style="display:flex;align-items:center;gap:8px;">
+              Feedbacks dos usuários
+              <span @click="toggleFeedbacks" class="toggle-feedbacks-seta" :title="feedbacksVisiveis ? 'Recolher feedbacks' : 'Mostrar feedbacks'">
+                <svg v-if="feedbacksVisiveis" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f4511e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                <svg v-else width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f4511e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </span>
+            </h4>
+            <div v-if="feedbacksVisiveis">
+              <div v-if="feedbacks.length">
+                <div v-for="(fb, idx) in feedbacks" :key="idx" class="feedback-item">
+                  <div class="feedback-usuario">
+                    {{ fb.usuario }} <span class="feedback-nota">★ {{ fb.nota }}</span>
+                    <button v-if="fb.usuario === usuarioLogado()" class="remover-feedback-btn" @click="removerFeedback(idx)">Remover</button>
+                  </div>
+                  <div class="feedback-comentario">{{ fb.comentario }}</div>
+                </div>
+              </div>
+              <div v-else class="feedback-vazio">Nenhum feedback para este produto ainda.</div>
+              <!-- Botão para abrir o formulário de feedback -->
+              <button v-if="!feedbackFormAberto" class="abrir-feedback-btn" @click="abrirFeedbackForm">Adicionar feedback</button>
+              <!-- Formulário para novo feedback -->
+              <form v-if="feedbackFormAberto" class="feedback-form" @submit.prevent="enviarFeedback" style="margin-top:12px;">
+                <input v-model="novoFeedback.usuario" placeholder="Seu nome" required disabled style="margin-bottom:6px; background:#f3f3f3; color:#888;" />
+                <select v-model="novoFeedback.nota" required style="margin-bottom:6px;">
+                  <option v-for="n in 5" :key="n" :value="n">{{ n }} estrela{{ n > 1 ? 's' : '' }}</option>
+                </select>
+                <textarea v-model="novoFeedback.comentario" placeholder="Seu comentário" required rows="2" style="margin-bottom:6px;"></textarea>
+                <div style="display:flex; gap:10px;">
+                  <button type="submit">Enviar feedback</button>
+                  <button type="button" @click="fecharFeedbackForm" style="background:#eee;color:#f4511e;">Cancelar</button>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
         <div class="ml-info">
           <h2 class="ml-nome">{{ produtoSelecionado.nome }}</h2>
@@ -590,5 +685,140 @@ function isFavoritado(p) {
   .alert-confirmacao {
     top: 120px !important;
   }
+}
+
+.feedbacks-area {
+  width: 100%;
+  margin-top: 18px;
+  background: #f7f8fa;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px #0001;
+  padding: 18px 14px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.feedbacks-area h4 {
+  margin: 0 0 8px 0;
+  color: #f4511e;
+  font-size: 1.08rem;
+  font-weight: 700;
+}
+.feedback-item {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px #0001;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.feedback-usuario {
+  font-weight: 600;
+  color: #1976d2;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.feedback-nota {
+  color: #f59e0b;
+  font-size: 0.98rem;
+  margin-left: 4px;
+}
+.feedback-comentario {
+  color: #444;
+  font-size: 0.98rem;
+  margin-left: 2px;
+}
+.feedback-vazio {
+  color: #888;
+  font-size: 0.98rem;
+  text-align: center;
+  margin: 8px 0;
+}
+.feedback-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px #0001;
+  padding: 10px 12px;
+  margin-top: 10px;
+}
+.feedback-form input,
+.feedback-form select,
+.feedback-form textarea {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 0.98rem;
+  background: #f7f8fa;
+}
+.feedback-form button {
+  background: #f4511e;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: background 0.2s;
+}
+.feedback-form button:hover {
+  background: #d84315;
+}
+
+.abrir-feedback-btn {
+  background: linear-gradient(90deg, #f59e0b 60%, #f4511e 100%);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 22px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 0;
+  box-shadow: 0 2px 8px #fbbf2422;
+  transition: background 0.2s, transform 0.2s;
+}
+.abrir-feedback-btn:hover {
+  background: linear-gradient(90deg, #f4511e 60%, #f59e0b 100%);
+  transform: scale(1.04);
+}
+
+/* CSS para o botão de remover feedback */
+.remover-feedback-btn {
+  background: #fff0f0;
+  color: #e11d48;
+  border: 1px solid #e11d48;
+  border-radius: 6px;
+  font-size: 0.92rem;
+  padding: 2px 10px;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.remover-feedback-btn:hover {
+  background: #e11d48;
+  color: #fff;
+}
+
+.toggle-feedbacks-seta {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s;
+  user-select: none;
+}
+.toggle-feedbacks-seta:hover {
+  transform: scale(1.15);
+  background: #fff3e0;
+  border-radius: 50%;
 }
 </style>
