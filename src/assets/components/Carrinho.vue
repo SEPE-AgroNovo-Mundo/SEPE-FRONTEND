@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <script setup>
 defineOptions({ name: 'AppCarrinho' })
 import { ref, defineProps, defineEmits, computed, watch } from 'vue'
@@ -83,6 +84,8 @@ function continuarCompra() {
     setTimeout(() => {
       showConfirmAlert.value = false
       emit('fechar')
+      // Limpa o carrinho ao finalizar a compra
+      props.produtos.splice(0, props.produtos.length)
       step.value = 1
       tipoCompra.value = ''
       endereco.value = { nome: '', rua: '', numero: '', bairro: '', cidade: '', estado: '', cep: '' }
@@ -200,9 +203,6 @@ function voltarEtapa() {
         <div class="tipo-compra-opcoes">
           <label class="tipo-compra-opcao" :class="{ selected: tipoPagamento === 'dinheiro' }">
             <input type="radio" v-model="tipoPagamento" value="dinheiro" /> Dinheiro
-          </label>
-          <label class="tipo-compra-opcao" :class="{ selected: tipoPagamento === 'pix' }">
-            <input type="radio" v-model="tipoPagamento" value="pix" /> Pix
           </label>
           <label class="tipo-compra-opcao" :class="{ selected: tipoPagamento === 'cartao' }">
             <input type="radio" v-model="tipoPagamento" value="cartao" /> Cartão
